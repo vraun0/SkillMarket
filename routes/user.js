@@ -9,22 +9,12 @@ router.use(express.json());
 
 
 router.post('/signup', async (req, res) => {
-  //helper utilities 
   const signupSchema = z.object({
     name: z.string().min(3).max(30),
     email: z.string().email().min(3).max(30),
     password: z.string().min(3).max(30),
   });
-  const hashPassword = async (password) => {
-    return await bcrypt.hash(password, 5);
-  };
-
-  const emailExists = async (email) => {
-    const user = await User.findOne({ email, admin: false });
-    return !!user;
-  };
-
-  //validitating the request body 
+  
   const parsed = signupSchema.safeParse(req.body);
   if (!parsed.success) {
     return res.status(400).json({
@@ -36,11 +26,11 @@ router.post('/signup', async (req, res) => {
   const { name, email, password } = parsed.data;
 
   try {
-    if (await emailExists(email)) {
+    if (await User.find({email : email, admin : false})) {
       return res.status(409).json({ message: "Account already exists" });
     }
 
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await bcrypt.hash(password, 5);
 
     await User.create({
       name,
@@ -63,7 +53,7 @@ router.post('/signup', async (req, res) => {
 });
 
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
 
 
 
