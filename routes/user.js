@@ -1,67 +1,71 @@
-const express = require('express')
-const { z } = require('zod')
-const bcrypt = require('bcrypt')
-const { User } = require('../db.js')
-const router = express.Router()
-
+const express = require('express');
+const { z } = require('zod');
+const bcrypt = require('bcrypt');
+const { User } = require('../db');
+const router = express.Router();
+const { generateToken, authorization } = require('../auth');
 
 router.use(express.json());
 
-router.post('/signup', (req, res) => {
-  const requiredBody = z.object({
+
+router.post('/signup', async (req, res) => {
+  //helper utilities 
+  const signupSchema = z.object({
     name: z.string().min(3).max(30),
     email: z.string().email().min(3).max(30),
     password: z.string().min(3).max(30),
-  })
-  const parsedBody = requiredBody.safeParse(req.body);
-  if (!parsedBody.success) {
-    res.json({
-      message: "body error",
-      error: parsedBody.error
-    });
-  }
-  const name = parsedBody.data.name;
-  const email = parsedBody.data.email;
-  const password = parsedBody.data.password;
-  const courseIds = [];
-  const admin = false;
-  const createdAt = new Date();
-  const updatedAt = new Date();
-
-  async function passwordHash(password) {
+  });
+  const hashPassword = async (password) => {
     return await bcrypt.hash(password, 5);
   };
 
-  async function createModel() {
-    hashedPassword = await passwordHash(password);
-    await User.create({
-      name: name,
-      email: email,
-      password: hashedPassword,
-      courseIds: courseIds,
-      admin: admin,
-      createdAt: createdAt,
-      updatedAt: updatedAt
-    });
+  const emailExists = async (email) => {
+    const user = await User.findOne({ email, admin: false });
+    return !!user;
   };
 
+  //validitating the request body 
+  const parsed = signupSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({
+      message: "Validation failed",
+      error: parsed.error.errors,
+    });
+  }
+
+  const { name, email, password } = parsed.data;
+
   try {
-    createModel();
-    res.json({
-      message: "You have been signed up"
+    if (await emailExists(email)) {
+      return res.status(409).json({ message: "Account already exists" });
+    }
+
+    const hashedPassword = await hashPassword(password);
+
+    await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      courseIds: [],
+      admin: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
 
+    res.status(201).json({ message: "You have been signed up" });
+
   } catch (error) {
-    res.json({
-      message: "database error signing up",
-      error: error
-    })
+    res.status(500).json({
+      message: "Database error signing up",
+      error: error.message || error,
+    });
   }
 });
 
 
-
 router.post('/login', (req, res) => {
+
+
 
 });
 
