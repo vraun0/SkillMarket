@@ -45,12 +45,18 @@ router.post('/signup', (req, res) => {
     });
   };
 
-  createModel();
+  try {
+    createModel();
+    res.json({
+      message: "You have been signed up"
+    });
 
-  res.json({
-    message: "You have been signed up"
-  });
-
+  } catch (error) {
+    res.json({
+      message: "database error signing up",
+      error: error
+    })
+  }
 });
 
 
