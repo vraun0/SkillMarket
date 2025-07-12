@@ -1,22 +1,29 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-dotenv.config();
+const AppError = require('../utils/appError');
+const User = require('../models/user');
 
-const jwtSecret = process.env.jwtSecret;
+const authMiddleware = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    throw new AppError('Authentication required', 401);
+  }
 
-function authorization(req, res, next) {
-  const token = req.headers.authorization;
-  if (!token) return res.status(401).send('Access Denied');
+  const token = authHeader.split(' ')[1];
 
-  jwt.verify(token, jwtSecret, (err, decoded) => {
-    if (err) return res.status(401).send('Access Denied');
-    req.user = decoded.user;
+  try {
+    const decoded = jwt.verify(token, process.env.jwtSecret, {expiresIn : '7d'});
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      throw new AppError('User not found', 401);
+    }
+
+    req.user = user; 
     next();
-  });
-}
+  } catch (err) {
+    next(new AppError('Invalid or expired token', 401));
+  }
+};
 
-
-
-
-module.exports = authorization;
+module.exports = authMiddleware;

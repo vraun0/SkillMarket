@@ -5,6 +5,7 @@ const User = require('../models/user');
 const generateToken = require('../utils/generateToken');
 const asyncHandler = require('../utils/asyncHandler');
 const AppError = require('../utils/appError');
+const authMiddleware = require('../utils/auth');
 
 const router = express.Router();
 
@@ -70,13 +71,18 @@ router.post('/login', asyncHandler(async (req, res, next) => {
   const token = generateToken(user);
   res.status(200).json({
     status: 200,
-    message: "Logged in successfully",
     token,
+    user:{
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      password: user.password
+    }
   });
 }));
 
 
-router.get('/home', (req, res) => {
+router.get('/home',authMiddleware, (req, res) => {
   res.send('Hello World!');
 });
 

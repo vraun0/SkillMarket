@@ -5,7 +5,7 @@ dotenv.config();
 const jwtSecret = process.env.jwtSecret;
 
 function generateToken(user) {
-  return jwt.sign({ user }, jwtSecret);
+  return jwt.sign({id: user._id }, jwtSecret);
 }
 
 module.exports = generateToken;
