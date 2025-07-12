@@ -26,7 +26,7 @@ router.post('/signup', async (req, res) => {
   const { name, email, password } = parsed.data;
 
   try {
-    if (await User.find({email : email, admin : false})) {
+    if (await User.findOne({email : email, admin : false})) {
       return res.status(409).json({ message: "Account already exists" });
     }
 
@@ -54,6 +54,39 @@ router.post('/signup', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
+  requiredBody = z.object({
+    email: z.string().email().min(3).max(30),
+    password: z.string().min(3).max(30)
+  });
+
+  parsed = requiredBody.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({
+      message: "Validation failed",
+      error: parsed.error.errors,
+    });
+  }
+
+  const { email, password } = parsed.data;
+  const user = await User.findOne({email: email});
+  if(await bcrypt.compare(password, user.password)){
+    token = generateToken(user);
+    res.json({
+      token : token,
+      message : "you have been logged in"
+    })
+
+  }else{
+    if(user){
+      res.json({
+        message : "incorrect password"
+      })
+    }else{
+      res.json({
+        message : "user not found"
+      })
+    }
+  }
 
 
 
