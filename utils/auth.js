@@ -4,9 +4,6 @@ dotenv.config();
 
 const jwtSecret = process.env.jwtSecret;
 
-function generateToken(user) {
-  return jwt.sign({ user }, jwtSecret);
-}
 
 function authorization(req, res, next) {
   const token = req.headers.authorization;
@@ -22,7 +19,4 @@ function authorization(req, res, next) {
 
 
 
-module.exports = {
-  generateToken,
-  authorization
-};
+module.exports = authorization;
