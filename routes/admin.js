@@ -11,8 +11,6 @@ const path = require('path');
 const router = express.Router();
 
 
-router.use(express.json());
-
 router.post('/signup', asyncHandler(async (req, res) => {
   const signupSchema = z.object({
     name: z.string().min(3).max(30),

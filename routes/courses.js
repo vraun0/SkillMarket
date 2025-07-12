@@ -1,4 +1,5 @@
 const express = require('express');
+const { z } = require('zod');
 const router = express.Router();
 const courseModel = require('../models/course');
 const authMiddleware = require('../utils/auth.js');
@@ -53,7 +54,7 @@ router.post('/create', authMiddleware, asyncHandler(async (req, res) => {
 }));
 
 
-router.put('/update', authMiddleware, asyncHandler(async (req, res) => {
+router.put('/update/:id', authMiddleware, asyncHandler(async (req, res) => {
   if (!req.user.admin) {
     throw new appError("user is not an Admin", 400);
   }
@@ -79,7 +80,7 @@ router.put('/update', authMiddleware, asyncHandler(async (req, res) => {
 }));
 
 
-router.delete('/delete', authMiddleware, adminOnly, asyncHandler(async (req, res) => {
+router.delete('/delete', authMiddleware, asyncHandler(async (req, res) => {
   if (!req.user.admin) {
     throw new appError("user is not an Admin", 400);
   }
@@ -107,19 +108,19 @@ router.post('/purchase', authMiddleware, asyncHandler(async (req, res) => {
   const parsed = purchaseSchema.safeParse(req.body);
 
   if (!parsed.success) {
-    throw new AppError("Invalid course ID", 400, parsed.error.errors);
+    throw new appError("Invalid course ID", 400, parsed.error.errors);
   }
 
   const { courseId } = parsed.data;
 
   const course = await courseModel.findById(courseId);
   if (!course) {
-    throw new AppError("Course not found", 404);
+    throw new appError("Course not found", 404);
   }
 
   const user = await userModel.findById(req.user._id);
   if (user.courseIds.includes(courseId)) {
-    throw new AppError("Course already purchased", 409);
+    throw new appError("Course already purchased", 409);
   }
 
   user.courseIds.push(courseId);
