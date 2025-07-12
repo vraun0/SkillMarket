@@ -6,6 +6,7 @@ const generateToken = require('../utils/generateToken');
 const asyncHandler = require('../utils/asyncHandler');
 const AppError = require('../utils/appError');
 const authMiddleware = require('../utils/auth');
+const path = require('path');
 
 const router = express.Router();
 
@@ -83,8 +84,8 @@ router.post('/login', asyncHandler(async (req, res, next) => {
 }));
 
 
-router.get('/home',authMiddleware, (req, res) => {
-  res.send('Hello World!');
+router.get('/home', authMiddleware, (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
 module.exports = router
