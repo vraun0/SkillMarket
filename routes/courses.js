@@ -80,7 +80,7 @@ router.put('/update/:id', authMiddleware, asyncHandler(async (req, res) => {
 }));
 
 
-router.delete('/delete', authMiddleware, asyncHandler(async (req, res) => {
+router.delete('/delete/:id', authMiddleware, asyncHandler(async (req, res) => {
   if (!req.user.admin) {
     throw new appError("user is not an Admin", 400);
   }
