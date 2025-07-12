@@ -18,7 +18,7 @@ exports.signup = async (req, res) => {
 
   const { name, email, password } = parsed.data;
 
-  if (await User.findOne({ email: email, admin: false })) {
+  if (await User.findOne({ email: email , admin: false })) {
     throw new AppError("User with this email already exists", 409)
   }
 
