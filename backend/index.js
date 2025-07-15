@@ -36,7 +36,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({
     status: statusCode,
     message: err.message || 'Internal server error',
-    errors: err.errors || null, // optional, e.g. for validation
+    errors: err.errors || null, 
   });
 });
 
