@@ -1,12 +1,13 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const mongoose = require('mongoose');
-const path = require('path');
-const userRouter = require('./routes/user')
-const adminRouter = require('./routes/admin')
-const coursesRouter = require('./routes/courses')
+const mongoose = require("mongoose");
+const path = require("path");
+const userRouter = require("./routes/user");
+const adminRouter = require("./routes/admin");
+const coursesRouter = require("./routes/courses");
 
-mongoose.connect(process.env.MONGODB_URI)
+mongoose
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("MongoDB connected");
 
@@ -14,20 +15,19 @@ mongoose.connect(process.env.MONGODB_URI)
       console.log(`Server running on http://localhost:${port}`);
     });
   })
-  .catch(err => {
+  .catch((err) => {
     console.error("MongoDB connection error:", err);
-    process.exit(1); 
+    process.exit(1);
   });
 
-const port = 3000;
+const port = 3001;
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'frontend/dist')));
+app.use(express.static(path.join(__dirname, "frontend/dist")));
 
-
-app.use('/user', userRouter);
-app.use('/admin', adminRouter);
-app.use('/courses', coursesRouter);
+app.use("api/user", userRouter);
+app.use("api/admin", adminRouter);
+app.use("api/courses", coursesRouter);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -35,12 +35,11 @@ app.use((err, req, res, next) => {
 
   res.status(statusCode).json({
     status: statusCode,
-    message: err.message || 'Internal server error',
-    errors: err.errors || null, 
+    message: err.message || "Internal server error",
+    errors: err.errors || null,
   });
 });
 
-app.all('/{*any}', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
+app.all("/{*any}", (req, res) => {
+  res.sendFile(path.join(__dirname, "/frontend/dist/index.html"));
 });
-
