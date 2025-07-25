@@ -1,78 +1,130 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { createFileRoute } from '@tanstack/react-router'
+import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
+import { z } from 'zod'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { useLogin } from "../hooks/"
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
 })
+
 function RouteComponent() {
   return (
     <div>
-        <Login1 />
+      <Login />
     </div>
   )
 }
 
+const { fieldContext, formContext, useFieldContext, useFormContext } =
+  createFormHookContexts()
 
-
-interface Login1Props {
-  heading?: string;
-  // logo: {
-  //   url: string;
-  //   src: string;
-  //   alt: string;
-  //   title?: string;
-  // };
-  buttonText?: string;
-  googleText?: string;
-  signupText?: string;
-  signupUrl?: string;
+function emailField() {
+  const field = useFieldContext<string>()
+  return (
+    <label>
+      <Input
+        placeholder="Email"
+        type="email"
+        className="text-sm"
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(e) => field.handleChange(e.target.value)}
+      />
+    </label>
+  )
 }
 
-const Login1 = ({
-  heading = "Login",
-  buttonText = "Login",
-  signupText = "Need an account?",
-}: Login1Props) => {
-    
-  function onSubmit(){
-    console.log("onSubmit called")
-
-  }
+function passwordField() {
+  const field = useFieldContext<string>()
   return (
-    <section className="bg-muted h-screen">
-      <div className="flex h-full items-center justify-center">
-        {/* Logo */}
-        <div className="flex flex-col items-center gap-6 lg:justify-start">
-          <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-6 py-8 shadow-md">
-            {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
-            <Input
-              type="email"
-              placeholder="Email"
-              className="text-sm"
-              required
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              className="text-sm"
-              required
-            />
-            <Button onClick={onSubmit} type="submit" className="w-full">
-              {buttonText}
-            </Button>
-          </div>
-          <div className="text-muted-foreground flex justify-center gap-1 text-sm">
-            <p>{signupText}</p>
-            <Link to="/signup">
-            <button className="text-primary font-medium hover:underline">Sign Up</button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+    <label>
+      <Input
+        placeholder="Password"
+        type="password"
+        className="text-sm"
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(e) => field.handleChange(e.target.value)}
+      />
+    </label>
+  )
+}
 
-export { Login1 };
+function submitButton() {
+  const form = useFormContext()
+  return (
+    <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+      {([canSubmit, isSubmitting]) => (
+        <Button type="submit" disabled={!canSubmit && isSubmitting}>
+          Submit
+        </Button>
+      )}
+    </form.Subscribe>
+  )
+}
 
+const { useAppForm } = createFormHook({
+  fieldContext,
+  formContext,
+  fieldComponents: {
+    emailField,
+    passwordField,
+  },
+  formComponents: {
+    submitButton,
+  },
+})
+
+interface loginValues {
+  email: string
+  password: string
+}
+
+const defaultLoginValues: loginValues = {
+  email: '',
+  password: '',
+}
+
+const loginSchema = z.object({
+  email: z.string().email().min(3).max(30),
+  password: z.string().min(3).max(30),
+})
+
+
+function Login() {
+  const login = useLogin()
+  const loginForm = useAppForm({
+    defaultValues: defaultLoginValues,
+    validators: {
+      onChange: loginSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await login.mutate(value)
+    },
+  })
+
+  return (
+    <div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          loginForm.handleSubmit()
+        }}
+      >
+        <loginForm.AppField
+          name="email"
+          children={(field) => <field.emailField />}
+        />
+        <loginForm.AppField
+          name="password"
+          children={(field) => <field.passwordField />}
+        />
+        <loginForm.AppForm>
+          <loginForm.submitButton />
+        </loginForm.AppForm>
+      </form>
+    </div>
+  )
+}

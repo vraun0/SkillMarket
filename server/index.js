@@ -25,9 +25,9 @@ const port = 3001;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "frontend/dist")));
 
-app.use("api/user", userRouter);
-app.use("api/admin", adminRouter);
-app.use("api/courses", coursesRouter);
+app.use("/api/user", userRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/courses", coursesRouter);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
