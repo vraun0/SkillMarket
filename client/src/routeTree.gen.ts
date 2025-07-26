@@ -13,6 +13,8 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
+import { Route as ProtectedProfileRouteImport } from './routes/_protected/profile'
 import { Route as ProtectedHomeRouteImport } from './routes/_protected/home'
 
 const SignupRoute = SignupRouteImport.update({
@@ -34,6 +36,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedSettingsRoute = ProtectedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any)
+const ProtectedProfileRoute = ProtectedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any)
 const ProtectedHomeRoute = ProtectedHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -45,12 +57,16 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/home': typeof ProtectedHomeRoute
+  '/profile': typeof ProtectedProfileRoute
+  '/settings': typeof ProtectedSettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/home': typeof ProtectedHomeRoute
+  '/profile': typeof ProtectedProfileRoute
+  '/settings': typeof ProtectedSettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -59,12 +75,14 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_protected/home': typeof ProtectedHomeRoute
+  '/_protected/profile': typeof ProtectedProfileRoute
+  '/_protected/settings': typeof ProtectedSettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/signup' | '/home'
+  fullPaths: '/' | '/login' | '/signup' | '/home' | '/profile' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/home'
+  to: '/' | '/login' | '/signup' | '/home' | '/profile' | '/settings'
   id:
     | '__root__'
     | '/'
@@ -72,6 +90,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/_protected/home'
+    | '/_protected/profile'
+    | '/_protected/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -111,6 +131,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected/settings': {
+      id: '/_protected/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ProtectedSettingsRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/_protected/profile': {
+      id: '/_protected/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProtectedProfileRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
     '/_protected/home': {
       id: '/_protected/home'
       path: '/home'
@@ -123,10 +157,14 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedRouteRouteChildren {
   ProtectedHomeRoute: typeof ProtectedHomeRoute
+  ProtectedProfileRoute: typeof ProtectedProfileRoute
+  ProtectedSettingsRoute: typeof ProtectedSettingsRoute
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
   ProtectedHomeRoute: ProtectedHomeRoute,
+  ProtectedProfileRoute: ProtectedProfileRoute,
+  ProtectedSettingsRoute: ProtectedSettingsRoute,
 }
 
 const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(

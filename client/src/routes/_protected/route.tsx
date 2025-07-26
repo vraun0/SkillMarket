@@ -35,14 +35,21 @@ function protectedRoutes() {
 function Header() {
   return (
     <header className="p-4 bg-secondary shadow-md">
-      <nav className="flex items-center justify-between max-w-7xl mx-auto">
-        <div className="text-xl font-bold">
-          <Link to="/" className="hover:text-blue-600 transition">
+      <nav className="w-full flex items-center justify-between px-6">
+        <div className="text-xl font-bold text-primary">
+          <Link to="/">
             <span className="text-primary">Skill</span>
             <span className="text-green-600">Market</span>
           </Link>
         </div>
-        <div>
+
+        <div className="flex items-center gap-4 text-sm">
+          <Link to="/_protected/profile" className="hover:underline">
+            Profile
+          </Link>
+          <Link to="/_protected/settings" className="hover:underline">
+            Settings
+          </Link>
           <Logout />
         </div>
       </nav>
