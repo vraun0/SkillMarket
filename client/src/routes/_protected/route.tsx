@@ -1,4 +1,5 @@
 import {
+  Link,
   Outlet,
   createFileRoute,
   redirect,
@@ -14,26 +15,58 @@ export const Route = createFileRoute('/_protected')({
       throw redirect({
         to: '/login',
         search: {
-          redirect: location.href,
+          redirect: location.pathname + location.search,
         },
       })
     }
   },
-  component: protectedDashboard,
+  component: protectedRoutes,
 })
 
-function protectedDashboard() {
+function protectedRoutes() {
+  return (
+    <div bg-background>
+      <Header />
+      <Outlet />
+    </div>
+  )
+}
+
+function Header() {
+  return (
+    <header className="p-4 bg-secondary shadow-md">
+      <nav className="flex items-center justify-between max-w-7xl mx-auto">
+        <div className="text-xl font-bold">
+          <Link to="/" className="hover:text-blue-600 transition">
+            <span className="text-primary">Skill</span>
+            <span className="text-green-600">Market</span>
+          </Link>
+        </div>
+        <div>
+          <Logout />
+        </div>
+      </nav>
+    </header>
+  )
+}
+function Logout() {
   const { auth } = useRouteContext({ from: '/_protected/home' })
   const navigate = useNavigate()
 
-  function logoutHandler() {
-    auth.logout()
+  async function logoutHandler() {
+    await auth.logout()
     navigate({ to: '/' })
   }
+
   return (
     <div>
-      <Button onClick={logoutHandler}>Logout</Button>
-      <Outlet />
+      <Button
+        variant="ghost"
+        className="bg-primary text-text"
+        onClick={logoutHandler}
+      >
+        Logout
+      </Button>
     </div>
   )
 }

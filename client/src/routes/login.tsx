@@ -1,4 +1,5 @@
 import {
+  Link,
   createFileRoute,
   useNavigate,
   useRouteContext,
@@ -8,7 +9,13 @@ import { z } from 'zod'
 import { useEffect } from 'react'
 import { useLogin } from '@/hooks/useLogin'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 const redirectSearchSchema = z.object({
   redirect: z.string(),
@@ -21,8 +28,45 @@ export const Route = createFileRoute('/login')({
 
 function RouteComponent() {
   return (
-    <div>
-      <Login />
+    <div className="min-h-screen flex flex-col bg-background">
+      {/* Header */}
+      <header className="p-4">
+        <div className="text-2xl font-bold text-primary">
+          <Link to="/">
+            <span className="text-primary">Skill</span>
+            <span className="text-green-600">Market</span>
+          </Link>
+        </div>
+      </header>
+
+      {/* Centered Card */}
+      <main className="flex-grow flex items-center justify-center px-4">
+        <div className="w-full max-w-md">
+          <Card className="bg-card border border-border shadow-xl rounded-2xl overflow-hidden">
+            <CardHeader className="space-y-2 text-center">
+              <CardTitle className="text-2xl font-semibold">
+                Login to your account
+              </CardTitle>
+              <CardDescription className="text-muted-foreground text-sm">
+                Enter your email and password to continue
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent>
+              <div className="p-1">
+                <Login />
+              </div>
+            </CardContent>
+
+            <div className="p-4 text-center text-sm text-muted-foreground border-t">
+              Don&apos;t have an account?{' '}
+              <Link to="/signup" className="text-primary hover:underline">
+                Sign Up
+              </Link>
+            </div>
+          </Card>
+        </div>
+      </main>
     </div>
   )
 }
@@ -30,44 +74,17 @@ function RouteComponent() {
 const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()
 
-function emailField() {
-  const field = useFieldContext<string>()
-  return (
-    <label>
-      <Input
-        placeholder="Email"
-        type="email"
-        className="text-sm"
-        value={field.state.value}
-        onBlur={field.handleBlur}
-        onChange={(e) => field.handleChange(e.target.value)}
-      />
-    </label>
-  )
-}
-
-function passwordField() {
-  const field = useFieldContext<string>()
-  return (
-    <label>
-      <Input
-        placeholder="Password"
-        type="password"
-        className="text-sm"
-        value={field.state.value}
-        onBlur={field.handleBlur}
-        onChange={(e) => field.handleChange(e.target.value)}
-      />
-    </label>
-  )
-}
-
 function submitButton() {
   const form = useFormContext()
   return (
     <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
       {([canSubmit, isSubmitting]) => (
-        <Button type="submit" disabled={!canSubmit || isSubmitting}>
+        <Button
+          variant="ghost"
+          type="submit"
+          className="bg-primary"
+          disabled={!canSubmit || isSubmitting}
+        >
           Submit
         </Button>
       )}
@@ -75,6 +92,63 @@ function submitButton() {
   )
 }
 
+function emailField() {
+  const field = useFieldContext<string>()
+
+  return (
+    <div className="space-y-1">
+      <label
+        className="block text-sm font-medium text-foreground"
+        htmlFor="email"
+      >
+        Email
+      </label>
+      <input
+        id="email"
+        placeholder="you@example.com"
+        type="email"
+        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(e) => field.handleChange(e.target.value)}
+      />
+      {field.state.meta.isValid && (
+        <p className="text-xs text-red-500 mt-1">
+          {field.state.meta.errors.join(',')}
+        </p>
+      )}
+    </div>
+  )
+}
+
+function passwordField() {
+  const field = useFieldContext<string>()
+
+  return (
+    <div className="space-y-1">
+      <label
+        className="block text-sm font-medium text-foreground"
+        htmlFor="password"
+      >
+        Password
+      </label>
+      <input
+        id="password"
+        placeholder="••••••••"
+        type="password"
+        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(e) => field.handleChange(e.target.value)}
+      />
+      {field.state.meta.isValid && (
+        <p className="text-xs text-red-500 mt-1">
+          {field.state.meta.errors.join(',')}
+        </p>
+      )}
+    </div>
+  )
+}
 const { useAppForm } = createFormHook({
   fieldContext,
   formContext,
@@ -106,8 +180,12 @@ function Login() {
   const login = useLogin()
   const { auth } = useRouteContext({ from: '/login' })
   const search = Route.useSearch()
-  const redirect = search.redirect ?? '/home'
   const navigate = useNavigate()
+
+  const disallowedRedirects = ['/signup', '/login', '/forgot-password']
+  const redirect = search.redirect
+  const safeRedirect =
+    redirect && !disallowedRedirects.includes(redirect) ? redirect : '/home'
 
   const loginForm = useAppForm({
     defaultValues: defaultLoginValues,
@@ -118,7 +196,7 @@ function Login() {
       login.mutate(value, {
         onSuccess: async (data) => {
           await auth.login(data.token, data.user)
-          navigate({ to: '/home' })
+          navigate({ to: safeRedirect })
         },
         onError: (error) => {
           console.log('Login error:', error)
@@ -128,25 +206,36 @@ function Login() {
   })
 
   return (
-    <div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          loginForm.handleSubmit()
-        }}
-      >
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        loginForm.handleSubmit()
+      }}
+      className="space-y-6"
+    >
+      <div className="space-y-4">
         <loginForm.AppField
           name="email"
-          children={(field) => <field.emailField />}
+          children={(field) => (
+            <div className="space-y-1">
+              <field.emailField />
+            </div>
+          )}
         />
         <loginForm.AppField
           name="password"
-          children={(field) => <field.passwordField />}
+          children={(field) => (
+            <div className="space-y-1">
+              <field.passwordField />
+            </div>
+          )}
         />
-        <loginForm.AppForm>
+      </div>
+      <loginForm.AppForm>
+        <div className="pt-2 flex items-center justify-center">
           <loginForm.submitButton />
-        </loginForm.AppForm>
-      </form>
-    </div>
+        </div>
+      </loginForm.AppForm>
+    </form>
   )
 }
