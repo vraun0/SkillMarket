@@ -44,10 +44,10 @@ function Header() {
         </div>
 
         <div className="flex items-center gap-4 text-sm">
-          <Link to="/_protected/profile" className="hover:underline">
+          <Link to="/profile" className="hover:underline">
             Profile
           </Link>
-          <Link to="/_protected/settings" className="hover:underline">
+          <Link to="/settings" className="hover:underline">
             Settings
           </Link>
           <Logout />
@@ -57,7 +57,7 @@ function Header() {
   )
 }
 function Logout() {
-  const { auth } = useRouteContext({ from: '/_protected/home' })
+  const { auth } = useRouteContext({ from: '/_protected' })
   const navigate = useNavigate()
 
   async function logoutHandler() {
