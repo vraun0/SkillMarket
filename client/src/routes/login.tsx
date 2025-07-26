@@ -1,11 +1,21 @@
-import { createFileRoute } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  useNavigate,
+  useRouteContext,
+} from '@tanstack/react-router'
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
 import { z } from 'zod'
+import { useEffect } from 'react'
+import { useLogin } from '@/hooks/useLogin'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useLogin } from "../hooks/"
+
+const redirectSearchSchema = z.object({
+  redirect: z.string(),
+})
 
 export const Route = createFileRoute('/login')({
+  validateSearch: redirectSearchSchema,
   component: RouteComponent,
 })
 
@@ -57,7 +67,7 @@ function submitButton() {
   return (
     <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
       {([canSubmit, isSubmitting]) => (
-        <Button type="submit" disabled={!canSubmit && isSubmitting}>
+        <Button type="submit" disabled={!canSubmit || isSubmitting}>
           Submit
         </Button>
       )}
@@ -92,16 +102,28 @@ const loginSchema = z.object({
   password: z.string().min(3).max(30),
 })
 
-
 function Login() {
   const login = useLogin()
+  const { auth } = useRouteContext({ from: '/login' })
+  const search = Route.useSearch()
+  const redirect = search.redirect ?? '/home'
+  const navigate = useNavigate()
+
   const loginForm = useAppForm({
     defaultValues: defaultLoginValues,
     validators: {
       onChange: loginSchema,
     },
-    onSubmit: async ({ value }) => {
-      await login.mutate(value)
+    onSubmit: ({ value }) => {
+      login.mutate(value, {
+        onSuccess: async (data) => {
+          await auth.login(data.token, data.user)
+          navigate({ to: '/home' })
+        },
+        onError: (error) => {
+          console.log('Login error:', error)
+        },
+      })
     },
   })
 
