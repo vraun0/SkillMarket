@@ -8,21 +8,25 @@ import { Button } from '@/components/ui/button'
 
 export const Route = createFileRoute('/')({
   beforeLoad: ({ context }) => {
-    console.log(
-      'context.auth.isAuthenticated in index route',
-      context.auth.isAuthenticated,
-    )
+    console.log('context.auth in index route', context.auth)
     if (context.auth.isAuthenticated) {
-      throw redirect({
-        to: '/home',
-      })
+      if (context.auth.user?.admin) {
+        throw redirect({
+          to: '/admin/home',
+        })
+      }
+      if (!context.auth.user?.admin) {
+        throw redirect({
+          to: '/user/home',
+        })
+      }
     }
   },
   component: App,
 })
 
 function Login() {
-  const currentPath = location.pathname + location.search
+  const currentPath = location.pathname
 
   return (
     <div className="flex gap-2">
@@ -55,17 +59,33 @@ function Login() {
     </div>
   )
 }
-function Header() {
+
+export function Header() {
   return (
-    <header className="p-4 bg-secondary shadow-md">
-      <nav className="flex items-center justify-between max-w-7xl mx-auto">
-        <div className="text-xl font-bold tracking-tight">
-          <Link to="/" className="hover:text-blue-600 transition">
+    <header className="bg-secondary shadow-sm py-4">
+      <nav className="container flex items-center justify-between mx-auto w-full max-w-screen-xl px-6 ">
+        <div className="flex items-center space-x-6">
+          <Link
+            to="/"
+            className="text-2xl font-bold tracking-tight hover:opacity-90 transition"
+          >
             <span className="text-primary">Skill</span>
             <span className="text-green-600">Market</span>
           </Link>
+
+          <Link
+            to="/marketplace"
+            className="text-base font-medium text-muted-foreground hover:text-foreground transition"
+          >
+            <Button variant={'ghost'} className="bg-primary text-background">
+              Marketplace
+            </Button>
+          </Link>
         </div>
-        <Login />
+
+        <div className="flex items-center space-x-2">
+          <Login />
+        </div>
       </nav>
     </header>
   )

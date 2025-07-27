@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-router'
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
 import { z } from 'zod'
-import { useEffect } from 'react'
+import { useState } from 'react'
 import { useLogin } from '@/hooks/useLogin'
 import { Button } from '@/components/ui/button'
 import {
@@ -60,7 +60,13 @@ function RouteComponent() {
 
             <div className="p-4 text-center text-sm text-muted-foreground border-t">
               Don&apos;t have an account?{' '}
-              <Link to="/signup" className="text-primary hover:underline">
+              <Link
+                to="/signup"
+                className="text-primary hover:underline"
+                search={{
+                  redirect: location.pathname,
+                }}
+              >
                 Sign Up
               </Link>
             </div>
@@ -149,12 +155,32 @@ function passwordField() {
     </div>
   )
 }
+
+function adminCheckboxField() {
+  const field = useFieldContext<boolean>()
+  return (
+    <div className="flex items-center space-x-2">
+      <input
+        id="admin"
+        type="checkbox"
+        checked={field.state.value}
+        onChange={(e) => field.handleChange(e.target.checked)}
+        className="accent-primary"
+      />
+      <label htmlFor="admin" className="text-sm text-foreground">
+        Login as Admin
+      </label>
+    </div>
+  )
+}
+
 const { useAppForm } = createFormHook({
   fieldContext,
   formContext,
   fieldComponents: {
     emailField,
     passwordField,
+    adminCheckboxField,
   },
   formComponents: {
     submitButton,
@@ -164,19 +190,23 @@ const { useAppForm } = createFormHook({
 interface loginValues {
   email: string
   password: string
+  admin: true | false
 }
 
 const defaultLoginValues: loginValues = {
   email: '',
   password: '',
+  admin: false,
 }
 
 const loginSchema = z.object({
   email: z.string().email().min(3).max(30),
   password: z.string().min(3).max(30),
+  admin: z.boolean(),
 })
 
 function Login() {
+  const [formError, setFormError] = useState('')
   const login = useLogin()
   const { auth } = useRouteContext({ from: '/login' })
   const search = Route.useSearch()
@@ -185,7 +215,7 @@ function Login() {
   const disallowedRedirects = ['/signup', '/login', '/forgot-password']
   const redirect = search.redirect
   const safeRedirect =
-    redirect && !disallowedRedirects.includes(redirect) ? redirect : '/home'
+    redirect && !disallowedRedirects.includes(redirect) ? redirect : '/'
 
   const loginForm = useAppForm({
     defaultValues: defaultLoginValues,
@@ -200,6 +230,7 @@ function Login() {
         },
         onError: (error) => {
           console.log('Login error:', error)
+          setFormError('Invalid email or password')
         },
       })
     },
@@ -230,7 +261,19 @@ function Login() {
             </div>
           )}
         />
+        <loginForm.AppField
+          name="admin"
+          children={(field) => (
+            <div className="space-y-1">
+              <field.adminCheckboxField />
+            </div>
+          )}
+        />
       </div>
+
+      {formError && (
+        <div className="text-sm text-red-500 text-center">{formError}</div>
+      )}
       <loginForm.AppForm>
         <div className="pt-2 flex items-center justify-center">
           <loginForm.submitButton />

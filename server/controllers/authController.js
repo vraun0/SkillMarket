@@ -1,13 +1,14 @@
-const bcrypt = require('bcrypt');
-const { z } = require('zod');
-const User = require('../models/user');
-const generateToken = require('../utils/generateToken');
-const AppError = require('../utils/appError');
+const bcrypt = require("bcrypt");
+const { z } = require("zod");
+const User = require("../models/user");
+const generateToken = require("../utils/generateToken");
+const AppError = require("../utils/appError");
 
 exports.login = async (req, res) => {
   const schema = z.object({
     email: z.string().email().min(3).max(30),
     password: z.string().min(3).max(30),
+    admin: z.boolean(),
   });
 
   const parsed = schema.safeParse(req.body);
@@ -15,8 +16,8 @@ exports.login = async (req, res) => {
     throw new AppError("Validation failed", 400, parsed.error.errors);
   }
 
-  const { email, password } = parsed.data;
-  const user = await User.findOne({ email });
+  const { email, password, admin } = parsed.data;
+  const user = await User.findOne({ email: email, admin: admin });
   if (!user) {
     throw new AppError("User with that email not found", 404);
   }
@@ -37,7 +38,7 @@ exports.login = async (req, res) => {
       name: user.name,
       email: user.email,
       courseIds: user.courseIds,
-      admin: user.admin
-    }
+      admin: user.admin,
+    },
   });
 };

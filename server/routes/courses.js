@@ -1,18 +1,44 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const authMiddleware = require('../utils/auth.js');
-const asyncHandler = require('../utils/asyncHandler');
+const authMiddleware = require("../utils/auth.js");
+const asyncHandler = require("../utils/asyncHandler");
 
-const courseController = require('../controllers/courseController');
+const courseController = require("../controllers/courseController");
 
-router.get('/', authMiddleware, asyncHandler(courseController.getPurchasedCourses));
+router.get(
+  "/get",
+  authMiddleware,
+  asyncHandler(courseController.getYourCourses),
+);
 
-router.post('/create', authMiddleware, asyncHandler(courseController.createCourse));
+router.get(
+  "/getAll",
+  authMiddleware,
+  asyncHandler(courseController.getAllCourses),
+);
 
-router.put('/update/:id', authMiddleware, asyncHandler(courseController.updateCourse));
+router.post(
+  "/create",
+  authMiddleware,
+  asyncHandler(courseController.createCourse),
+);
 
-router.delete('/delete/:id', authMiddleware, asyncHandler(courseController.deleteCourse));
+router.put(
+  "/update/:id",
+  authMiddleware,
+  asyncHandler(courseController.updateCourse),
+);
 
-router.post('/purchase', authMiddleware, asyncHandler(courseController.purchaseCourse));
+router.delete(
+  "/delete/:id",
+  authMiddleware,
+  asyncHandler(courseController.deleteCourse),
+);
+
+router.post(
+  "/purchase",
+  authMiddleware,
+  asyncHandler(courseController.purchaseCourse),
+);
 
 module.exports = router;

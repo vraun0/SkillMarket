@@ -3,12 +3,17 @@ import { api } from '@/lib/axios'
 
 export const useSignup = () => {
   return useMutation({
-    mutationFn: async (values: {
+    mutationFn: async ({
+      admin,
+      ...rest
+    }: {
       name: string
       email: string
       password: string
+      admin: boolean
     }) => {
-      const response = await api.post('api/user/signup', values)
+      const endpoint = admin ? 'api/admin/signup' : 'api/user/signup'
+      const response = await api.post(endpoint, rest) // 'rest' does not include 'admin'
       return response.data
     },
   })

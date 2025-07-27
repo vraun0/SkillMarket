@@ -26,7 +26,7 @@ export const Route = createFileRoute('/signup')({
 })
 
 function RouteComponent() {
-  const currentPath = location.pathname + location.search
+  const currentPath = location.pathname
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <header className="p-4">
@@ -180,6 +180,24 @@ function passwordField() {
   )
 }
 
+function adminCheckboxField() {
+  const field = useFieldContext<boolean>()
+  return (
+    <div className="flex items-center space-x-2">
+      <input
+        id="admin"
+        type="checkbox"
+        checked={field.state.value}
+        onChange={(e) => field.handleChange(e.target.checked)}
+        className="accent-primary"
+      />
+      <label htmlFor="admin" className="text-sm text-foreground">
+        Sign up as Admin
+      </label>
+    </div>
+  )
+}
+
 const { useAppForm } = createFormHook({
   fieldContext,
   formContext,
@@ -187,6 +205,7 @@ const { useAppForm } = createFormHook({
     nameField,
     emailField,
     passwordField,
+    adminCheckboxField,
   },
   formComponents: {
     submitButton,
@@ -197,26 +216,32 @@ interface signupValues {
   name: string
   email: string
   password: string
+  admin: true | false
 }
 
 const defaultSignupValues: signupValues = {
   name: '',
   email: '',
   password: '',
+  admin: false,
 }
 
 const signupSchema = z.object({
   name: z.string().min(3).max(30),
   email: z.string().email().min(3).max(30),
   password: z.string().min(6).max(30),
+  admin: z.boolean(),
 })
 
 function Signup() {
   const signup = useSignup()
   const { auth } = useRouteContext({ from: '/signup' })
   const search = Route.useSearch()
-  const redirect = search.redirect ?? '/home'
   const navigate = useNavigate()
+  const disallowedRedirects = ['/signup', '/login', '/forgot-password']
+  const redirect = search.redirect
+  const safeRedirect =
+    redirect && !disallowedRedirects.includes(redirect) ? redirect : '/'
 
   const signupForm = useAppForm({
     defaultValues: defaultSignupValues,
@@ -227,7 +252,7 @@ function Signup() {
       signup.mutate(value, {
         onSuccess: async (data) => {
           await auth.login(data.token, data.user)
-          navigate({ to: redirect })
+          navigate({ to: safeRedirect })
         },
         onError: (error) => {
           console.log('Signup error:', error)
@@ -266,6 +291,15 @@ function Signup() {
           children={(field) => (
             <div className="space-y-1">
               <field.passwordField />
+            </div>
+          )}
+        />
+
+        <signupForm.AppField
+          name="admin"
+          children={(field) => (
+            <div className="space-y-1">
+              <field.adminCheckboxField />
             </div>
           )}
         />
