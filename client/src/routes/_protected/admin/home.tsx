@@ -62,16 +62,27 @@ function RouteComponent() {
 function Header() {
   return (
     <header className="p-4 bg-secondary shadow-md">
-      <nav className="w-full flex items-center justify-between px-6">
-        <div className="text-xl font-bold text-primary">
-          <Link to="/">
+      <nav className="w-full flex items-center justify-between h-16 px-2">
+        {/* Left section: Logo and Create */}
+        <div className="text-xl flex items-center font-bold space-x-4">
+          <Link to="/" className="flex items-center space-x-2">
             <span className="text-2xl text-primary">Skill</span>
             <span className="text-2xl text-green-600">Market</span>
-            <span className="p-2 text-black">-</span>
-            <span className="text-background">ADMIN</span>
+
+            {/* Admin Badge */}
+            <span className="pb-2 text-xs font-semibold rounded-full bg-destructive text-background">
+              ADMIN
+            </span>
+          </Link>
+          <span className="font-light text-3xl">|</span>
+          <Link to="/admin/createCourse">
+            <Button variant="ghost" className="bg-primary text-background">
+              Create
+            </Button>
           </Link>
         </div>
 
+        {/* Right section: Profile / Settings / Logout */}
         <div className="flex items-center gap-4 text-sm">
           <Link to="/admin/profile" className="hover:underline">
             Profile
@@ -85,6 +96,7 @@ function Header() {
     </header>
   )
 }
+
 function Logout() {
   const { auth } = useRouteContext({ from: '/_protected' })
   const navigate = useNavigate()
@@ -98,7 +110,7 @@ function Logout() {
     <div>
       <Button
         variant="ghost"
-        className="bg-primary text-text"
+        className="bg-primary text-background"
         onClick={logoutHandler}
       >
         Logout

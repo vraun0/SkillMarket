@@ -20,6 +20,7 @@ import { Route as ProtectedUserHomeRouteImport } from './routes/_protected/user/
 import { Route as ProtectedAdminSettingsRouteImport } from './routes/_protected/admin/settings'
 import { Route as ProtectedAdminProfileRouteImport } from './routes/_protected/admin/profile'
 import { Route as ProtectedAdminHomeRouteImport } from './routes/_protected/admin/home'
+import { Route as ProtectedAdminCreateCourseRouteImport } from './routes/_protected/admin/createCourse'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -75,12 +76,19 @@ const ProtectedAdminHomeRoute = ProtectedAdminHomeRouteImport.update({
   path: '/admin/home',
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
+const ProtectedAdminCreateCourseRoute =
+  ProtectedAdminCreateCourseRouteImport.update({
+    id: '/admin/createCourse',
+    path: '/admin/createCourse',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/signup': typeof SignupRoute
+  '/admin/createCourse': typeof ProtectedAdminCreateCourseRoute
   '/admin/home': typeof ProtectedAdminHomeRoute
   '/admin/profile': typeof ProtectedAdminProfileRoute
   '/admin/settings': typeof ProtectedAdminSettingsRoute
@@ -93,6 +101,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/signup': typeof SignupRoute
+  '/admin/createCourse': typeof ProtectedAdminCreateCourseRoute
   '/admin/home': typeof ProtectedAdminHomeRoute
   '/admin/profile': typeof ProtectedAdminProfileRoute
   '/admin/settings': typeof ProtectedAdminSettingsRoute
@@ -107,6 +116,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/signup': typeof SignupRoute
+  '/_protected/admin/createCourse': typeof ProtectedAdminCreateCourseRoute
   '/_protected/admin/home': typeof ProtectedAdminHomeRoute
   '/_protected/admin/profile': typeof ProtectedAdminProfileRoute
   '/_protected/admin/settings': typeof ProtectedAdminSettingsRoute
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/marketplace'
     | '/signup'
+    | '/admin/createCourse'
     | '/admin/home'
     | '/admin/profile'
     | '/admin/settings'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/marketplace'
     | '/signup'
+    | '/admin/createCourse'
     | '/admin/home'
     | '/admin/profile'
     | '/admin/settings'
@@ -146,6 +158,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/marketplace'
     | '/signup'
+    | '/_protected/admin/createCourse'
     | '/_protected/admin/home'
     | '/_protected/admin/profile'
     | '/_protected/admin/settings'
@@ -241,10 +254,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminHomeRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
+    '/_protected/admin/createCourse': {
+      id: '/_protected/admin/createCourse'
+      path: '/admin/createCourse'
+      fullPath: '/admin/createCourse'
+      preLoaderRoute: typeof ProtectedAdminCreateCourseRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
   }
 }
 
 interface ProtectedRouteRouteChildren {
+  ProtectedAdminCreateCourseRoute: typeof ProtectedAdminCreateCourseRoute
   ProtectedAdminHomeRoute: typeof ProtectedAdminHomeRoute
   ProtectedAdminProfileRoute: typeof ProtectedAdminProfileRoute
   ProtectedAdminSettingsRoute: typeof ProtectedAdminSettingsRoute
@@ -254,6 +275,7 @@ interface ProtectedRouteRouteChildren {
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
+  ProtectedAdminCreateCourseRoute: ProtectedAdminCreateCourseRoute,
   ProtectedAdminHomeRoute: ProtectedAdminHomeRoute,
   ProtectedAdminProfileRoute: ProtectedAdminProfileRoute,
   ProtectedAdminSettingsRoute: ProtectedAdminSettingsRoute,
