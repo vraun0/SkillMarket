@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import type { AuthState } from '@/stores/auth'
+import type { AuthState } from '@/types/authState'
 import { api } from '@/lib/axios'
 
 export const useGetCourses = (auth: AuthState) => {

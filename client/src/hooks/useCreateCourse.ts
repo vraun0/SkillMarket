@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import type { AuthState } from '@/stores/auth'
+import type { AuthState } from '@/types/authState'
 import type { CourseValues } from '@/types/courseValues'
 import { api } from '@/lib/axios'
 

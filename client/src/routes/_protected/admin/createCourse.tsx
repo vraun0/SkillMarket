@@ -5,7 +5,6 @@ import {
   useRouteContext,
 } from '@tanstack/react-router'
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
-import { z } from 'zod'
 import { useState } from 'react'
 import type { CourseValues } from '@/types/courseValues'
 import { Button } from '@/components/ui/button'
