@@ -7,6 +7,7 @@ import {
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
 import { z } from 'zod'
 import { useState } from 'react'
+import type { loginValues } from '@/types/loginValues'
 import { useLogin } from '@/hooks/useLogin'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { loginSchema } from '@/schemas/loginSchema'
 
 const redirectSearchSchema = z.object({
   redirect: z.string(),
@@ -187,23 +189,11 @@ const { useAppForm } = createFormHook({
   },
 })
 
-interface loginValues {
-  email: string
-  password: string
-  admin: true | false
-}
-
 const defaultLoginValues: loginValues = {
   email: '',
   password: '',
   admin: false,
 }
-
-const loginSchema = z.object({
-  email: z.string().email().min(3).max(30),
-  password: z.string().min(3).max(30),
-  admin: z.boolean(),
-})
 
 function Login() {
   const [formError, setFormError] = useState('')

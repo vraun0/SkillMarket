@@ -1,7 +1,13 @@
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
+import {
+  Link,
+  createFileRoute,
+  useNavigate,
+  useRouteContext,
+} from '@tanstack/react-router'
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
 import { z } from 'zod'
 import { useState } from 'react'
+import type { CourseValues } from '@/types/courseValues'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -10,11 +16,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { useCreateCourse } from '@/hooks/useCreateCourse'
+import { courseSchema } from '@/schemas/courseSchema'
 
 export const Route = createFileRoute('/_protected/admin/createCourse')({
   component: RouteComponent,
 })
-
 function RouteComponent() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -251,15 +258,6 @@ const { useAppForm } = createFormHook({
   },
 })
 
-interface CourseValues {
-  title: string
-  description: string
-  instructor: string
-  tags: Array<string>
-  price: number
-  thumbnail: string
-}
-
 const defaultCourseValues: CourseValues = {
   title: '',
   description: '',
@@ -268,18 +266,12 @@ const defaultCourseValues: CourseValues = {
   price: 0,
   thumbnail: '',
 }
-const courseSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  instructor: z.string(),
-  tags: z.array(z.string()),
-  price: z.number(),
-  thumbnail: z.string(),
-})
 
 function Login() {
   const [formError, setFormError] = useState('')
   const navigate = useNavigate({ from: '/admin/createCourse' })
+  const { auth } = useRouteContext({ from: '/_protected/admin/createCourse' })
+  const createCourse = useCreateCourse(auth)
 
   const courseForm = useAppForm({
     defaultValues: defaultCourseValues,
@@ -287,8 +279,16 @@ function Login() {
       onChange: courseSchema,
     },
     onSubmit: ({ value }) => {
-      console.log(value)
-      navigate({ to: '/admin/home' })
+      createCourse.mutate(value, {
+        onSuccess: async (data) => {
+          console.log(data)
+          navigate({ to: '/admin/home' })
+        },
+        onError: (error) => {
+          console.log('Login error:', error)
+          setFormError('Invalid email or password')
+        },
+      })
     },
   })
 

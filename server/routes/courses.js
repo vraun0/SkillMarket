@@ -13,7 +13,6 @@ router.get(
 
 router.get(
   "/getAll",
-  authMiddleware,
   asyncHandler(courseController.getAllCourses),
 );
 

@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-router'
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
 import { z } from 'zod'
+import type { signupValues } from '@/types/signupValues'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -15,6 +16,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { useSignup } from '@/hooks/useSignup'
+import { signupSchema } from '@/schemas/signupSchema'
 
 const redirectSearchSchema = z.object({
   redirect: z.string(),
@@ -212,26 +214,12 @@ const { useAppForm } = createFormHook({
   },
 })
 
-interface signupValues {
-  name: string
-  email: string
-  password: string
-  admin: true | false
-}
-
 const defaultSignupValues: signupValues = {
   name: '',
   email: '',
   password: '',
   admin: false,
 }
-
-const signupSchema = z.object({
-  name: z.string().min(3).max(30),
-  email: z.string().email().min(3).max(30),
-  password: z.string().min(6).max(30),
-  admin: z.boolean(),
-})
 
 function Signup() {
   const signup = useSignup()

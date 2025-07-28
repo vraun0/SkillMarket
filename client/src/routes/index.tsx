@@ -72,7 +72,14 @@ export function Header() {
             <span className="text-primary">Skill</span>
             <span className="text-green-600">Market</span>
           </Link>
-
+          <Link
+            to="/"
+            className="text-base font-medium text-muted-foreground hover:text-foreground transition"
+          >
+            <Button variant={'ghost'} className="bg-primary text-background">
+              Home
+            </Button>
+          </Link>
           <Link
             to="/marketplace"
             className="text-base font-medium text-muted-foreground hover:text-foreground transition"

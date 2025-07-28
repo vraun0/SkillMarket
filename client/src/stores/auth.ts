@@ -1,20 +1,5 @@
 import { create } from 'zustand'
-
-export interface User {
-  id: string
-  name: string
-  email: string
-  courseIds: Array<string>
-  admin: true | false
-}
-
-export interface AuthState {
-  token: string | null
-  user: User | null
-  isAuthenticated: true | false
-  login: (token: string, user: User) => void
-  logout: () => void
-}
+import type { AuthState } from '@/types/authState'
 
 export const useAuth = create<AuthState>((set) => {
   const token = localStorage.getItem('token')
