@@ -1,10 +1,6 @@
-import {
-  Link,
-  createFileRoute,
-  redirect,
-  useRouter,
-} from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { Header } from '@/components/landingHeader'
+import { Login } from '@/components/loginButton'
 
 export const Route = createFileRoute('/')({
   beforeLoad: ({ context }) => {
@@ -24,79 +20,6 @@ export const Route = createFileRoute('/')({
   },
   component: App,
 })
-
-function Login() {
-  const currentPath = location.pathname
-
-  return (
-    <div className="flex gap-2">
-      <Link
-        to="/login"
-        search={{
-          redirect: currentPath,
-        }}
-      >
-        <Button
-          variant="ghost"
-          className="bg-primary text-white text-base hover:bg-primary/90 transition"
-        >
-          Login
-        </Button>
-      </Link>
-      <Link
-        to="/signup"
-        search={{
-          redirect: currentPath,
-        }}
-      >
-        <Button
-          variant="ghost"
-          className="bg-background text-primary text-base hover:bg-primary/10 transition"
-        >
-          Sign Up
-        </Button>
-      </Link>
-    </div>
-  )
-}
-
-export function Header() {
-  return (
-    <header className="bg-secondary shadow-sm py-4">
-      <nav className="container flex items-center justify-between mx-auto w-full max-w-screen-xl px-6 ">
-        <div className="flex items-center space-x-6">
-          <Link
-            to="/"
-            className="text-2xl font-bold tracking-tight hover:opacity-90 transition"
-          >
-            <span className="text-primary">Skill</span>
-            <span className="text-green-600">Market</span>
-          </Link>
-          <Link
-            to="/"
-            className="text-base font-medium text-muted-foreground hover:text-foreground transition"
-          >
-            <Button variant={'ghost'} className="bg-primary text-background">
-              Home
-            </Button>
-          </Link>
-          <Link
-            to="/marketplace"
-            className="text-base font-medium text-muted-foreground hover:text-foreground transition"
-          >
-            <Button variant={'ghost'} className="bg-primary text-background">
-              Marketplace
-            </Button>
-          </Link>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <Login />
-        </div>
-      </nav>
-    </header>
-  )
-}
 
 function App() {
   return (

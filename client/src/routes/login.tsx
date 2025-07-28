@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Logo } from '@/components/headerLogo'
 import { loginSchema } from '@/schemas/loginSchema'
 
 const redirectSearchSchema = z.object({
@@ -33,12 +34,7 @@ function RouteComponent() {
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
       <header className="p-4">
-        <div className="text-2xl font-bold text-primary">
-          <Link to="/">
-            <span className="text-primary">Skill</span>
-            <span className="text-green-600">Market</span>
-          </Link>
-        </div>
+        <Logo />
       </header>
 
       {/* Centered Card */}
@@ -56,7 +52,7 @@ function RouteComponent() {
 
             <CardContent>
               <div className="p-1">
-                <Login />
+                <LoginForm />
               </div>
             </CardContent>
 
@@ -195,7 +191,7 @@ const defaultLoginValues: loginValues = {
   admin: false,
 }
 
-function Login() {
+function LoginForm() {
   const [formError, setFormError] = useState('')
   const login = useLogin()
   const { auth } = useRouteContext({ from: '/login' })

@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useGetAllCourses } from '@/hooks/useGetAllCourses'
 
-import { Header } from '@/routes/index'
+import { Header } from '@/components/landingHeader'
 
 export const Route = createFileRoute('/marketplace')({
   component: RouteComponent,

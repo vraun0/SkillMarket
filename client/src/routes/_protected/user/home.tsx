@@ -5,7 +5,6 @@ import {
   useRouteContext,
 } from '@tanstack/react-router'
 import { useGetCourses } from '@/hooks/useGetCourses'
-import { api } from '@/lib/axios'
 import { Button } from '@/components/ui/button'
 
 export const Route = createFileRoute('/_protected/user/home')({
