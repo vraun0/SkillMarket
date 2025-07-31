@@ -19,9 +19,12 @@ import { useCreateCourse } from '@/hooks/useCreateCourse'
 import { courseSchema } from '@/schemas/courseSchema'
 import MDEditor from '@uiw/react-md-editor'
 
-export const Route = createFileRoute('/_protected/admin/createCourse')({
+
+
+export const Route = createFileRoute('/_protected/admin/updateCourse')({
   component: RouteComponent,
 })
+
 function RouteComponent() {
   return (
     <div className="min-h-screen flex flex-col bg-background">

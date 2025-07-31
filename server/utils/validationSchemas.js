@@ -1,5 +1,4 @@
-const { z } = require('zod');
-
+const { z } = require("zod");
 
 const courseSchema = z.object({
   title: z.string().min(3),
@@ -14,9 +13,12 @@ const purchaseSchema = z.object({
   courseId: z.string().length(24, "Invalid course ID"),
 });
 
+const courseIdSchema = z.object({
+  _id: z.string(),
+});
 
 module.exports = {
   courseSchema,
-  purchaseSchema
-}
-
+  purchaseSchema,
+  courseIdSchema,
+};

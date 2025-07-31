@@ -6,3 +6,7 @@ export interface CourseValues {
   price: number
   thumbnail: string
 }
+
+export interface CourseValuesWithId extends CourseValues {
+  _id: string
+}

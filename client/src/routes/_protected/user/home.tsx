@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-router'
 import { useGetCourses } from '@/hooks/useGetCourses'
 import { Button } from '@/components/ui/button'
+import { Logo } from '@/components/headerLogo'
 
 export const Route = createFileRoute('/_protected/user/home')({
   component: RouteComponent,
@@ -69,11 +70,16 @@ function RouteComponent() {
 function Header() {
   return (
     <header className="p-4 bg-secondary shadow-md">
-      <nav className="w-full flex items-center justify-between px-6">
-        <div className="text-xl font-bold text-primary">
-          <Link to="/">
-            <span className="text-2xl text-primary">Skill</span>
-            <span className="text-2xl text-green-600">Market</span>
+      <nav className="container flex items-center justify-between mx-auto w-full max-w-screen-xl px-6 ">
+        <div className="flex items-center space-x-6">
+          <Logo />
+          <Link
+            to="/marketplace"
+            className="text-base font-medium text-muted-foreground hover:text-foreground transition"
+          >
+            <Button variant={'ghost'} className="bg-primary text-background">
+              Marketplace
+            </Button>
           </Link>
         </div>
 
@@ -103,7 +109,7 @@ function Logout() {
     <div>
       <Button
         variant="ghost"
-        className="bg-primary text-text"
+        className="bg-primary text-background"
         onClick={logoutHandler}
       >
         Logout

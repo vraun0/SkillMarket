@@ -6,7 +6,7 @@ export const useGetCourses = (auth: AuthState) => {
   const token = auth.token
 
   return useQuery({
-    queryKey: ['allCourses', token],
+    queryKey: ['Courses', token],
     queryFn: async () => {
       const response = await api.get('api/courses/get', {
         headers: {

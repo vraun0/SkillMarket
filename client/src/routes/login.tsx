@@ -31,7 +31,7 @@ export const Route = createFileRoute('/login')({
 
 function RouteComponent() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-dark-background">
       {/* Header */}
       <header className="p-4">
         <Logo />
@@ -40,12 +40,12 @@ function RouteComponent() {
       {/* Centered Card */}
       <main className="flex-grow flex items-center justify-center px-4">
         <div className="w-full max-w-md">
-          <Card className="bg-card border border-border shadow-xl rounded-2xl overflow-hidden">
+          <Card className="bg-card border border-border shadow-xl rounded-2xl overflow-hidden dark:border-background">
             <CardHeader className="space-y-2 text-center">
-              <CardTitle className="text-2xl font-semibold">
+              <CardTitle className="text-2xl font-semibold dark:text-dark-text">
                 Login to your account
               </CardTitle>
-              <CardDescription className="text-muted-foreground text-sm">
+              <CardDescription className="text-muted-foreground text-sm dark:text-dark-text">
                 Enter your email and password to continue
               </CardDescription>
             </CardHeader>
@@ -56,11 +56,11 @@ function RouteComponent() {
               </div>
             </CardContent>
 
-            <div className="p-4 text-center text-sm text-muted-foreground border-t">
+            <div className="p-4 text-center text-sm text-muted-foreground border-t dark:text-dark-text">
               Don&apos;t have an account?{' '}
               <Link
                 to="/signup"
-                className="text-primary hover:underline"
+                className="text-primary dark:text-dark-primary hover:underline"
                 search={{
                   redirect: location.pathname,
                 }}
@@ -102,7 +102,7 @@ function emailField() {
   return (
     <div className="space-y-1">
       <label
-        className="block text-sm font-medium text-foreground"
+        className="block text-sm font-medium text-foreground dark:text-dark-text"
         htmlFor="email"
       >
         Email
@@ -111,7 +111,7 @@ function emailField() {
         id="email"
         placeholder="you@example.com"
         type="email"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-md border border-input dark:border-background bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         value={field.state.value}
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
@@ -131,7 +131,7 @@ function passwordField() {
   return (
     <div className="space-y-1">
       <label
-        className="block text-sm font-medium text-foreground"
+        className="block text-sm font-medium text-foreground dark:text-dark-text"
         htmlFor="password"
       >
         Password
@@ -140,7 +140,7 @@ function passwordField() {
         id="password"
         placeholder="••••••••"
         type="password"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className=" w-full rounded-md border border-input dark:border-background bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         value={field.state.value}
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
@@ -163,9 +163,12 @@ function adminCheckboxField() {
         type="checkbox"
         checked={field.state.value}
         onChange={(e) => field.handleChange(e.target.checked)}
-        className="accent-primary"
+        className="accent-primary dark:accent-dark-primary"
       />
-      <label htmlFor="admin" className="text-sm text-foreground">
+      <label
+        htmlFor="admin"
+        className="text-sm text-foreground dark:text-dark-text"
+      >
         Login as Admin
       </label>
     </div>

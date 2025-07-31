@@ -1,24 +1,21 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@custom-variant dark (&:where(.dark, .dark *));
+@plugin '@tailwindcss/typography';
 
-    
 @theme {
-/* light theme */
-    --color-text: #020903;
-    --color-background: #f7fdf8;
-    --color-primary: #1fd128;
-    --color-secondary: #92e6d0;
-    --color-accent: #69ddcf;
-/* dark theme  */
-    --color-dark-text: #f7fdf8;
-    --color-dark-background: #030c04;
-    --color-dark-primary: #1fd128;
-    --color-dark-secondary: #196c56;
-    --color-dark-accent: #229688;
-/* font family */
-    --font-heading: 'Liter',
-    --font-body: 'Liter',
+  /* light theme */
+  --color-text: #040b04;
+  --color-background: #f1faf1;
+  --color-primary: #46c14b;
+  --color-secondary: #d8f3d9;
+  --color-accent: #6dd571;
+  /* dark theme  */
+  --color-dark-text: #f4fbf4;
+  --color-dark-background: #050f05;
+  --color-dark-primary: #3db841;
+  --color-dark-secondary: #1e6221;
+  --color-dark-accent: #2a922e;
+  /* font family */
+  --font-heading: 'Liter', --font-body: 'Liter';
 }
-
-
-

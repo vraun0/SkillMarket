@@ -4,8 +4,10 @@ import {
   useNavigate,
   useRouteContext,
 } from '@tanstack/react-router'
+import type { CourseValuesWithId } from '@/types/courseValues'
 import { useGetCourses } from '@/hooks/useGetCourses'
 import { Button } from '@/components/ui/button'
+import { CourseCard } from '@/components/courseCard'
 
 export const Route = createFileRoute('/_protected/admin/home')({
   component: RouteComponent,
@@ -44,17 +46,11 @@ function RouteComponent() {
   return (
     <div>
       <Header />
-      <div className="min-h-screen flex flex-col bg-background text-foreground">
-        <main className="flex-grow flex flex-col items-center justify-center px-4 text-center">
-          <h1 className="text-4xl font-bold tracking-tight mb-4">
-            Welcome{auth.user?.name ? `, ${auth.user.name}` : ''}!
-          </h1>
-          <p className="text-muted-foreground max-w-md">
-            You’ve successfully logged in as admin to{' '}
-            <span className="font-medium">SkillMarket</span>. Use the navigation
-            above to explore your profile, settings, and more.
-          </p>
-        </main>
+      <div className="p-4 text-3xl">Your Courses</div>
+      <div className="grid bg-background grid-cols-3 gap-6 p-8">
+        {data.courseList.map((course: CourseValuesWithId) => (
+          <CourseCard className="" key={course._id} course={course} />
+        ))}
       </div>
     </div>
   )
@@ -62,19 +58,17 @@ function RouteComponent() {
 function Header() {
   return (
     <header className="p-4 bg-secondary shadow-md">
-      <nav className="w-full flex items-center justify-between h-16 px-2">
+      <nav className="container flex items-center justify-between mx-auto w-full max-w-screen-xl px-6 ">
         {/* Left section: Logo and Create */}
         <div className="text-xl flex items-center font-bold space-x-4">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center ">
             <span className="text-2xl text-primary">Skill</span>
             <span className="text-2xl text-green-600">Market</span>
-
-            {/* Admin Badge */}
-            <span className="pb-2 text-xs font-semibold rounded-full bg-destructive text-background">
+            <span className="pb-2 text-xs font-semibold rounded-full bg-destructive text-text">
               ADMIN
             </span>
           </Link>
-          <span className="font-light text-3xl">|</span>
+          <span className="font-light text-xl">|</span>
           <Link to="/admin/createCourse">
             <Button variant="ghost" className="bg-primary text-background">
               Create

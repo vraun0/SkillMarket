@@ -14,13 +14,17 @@ import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MarketplaceCourse_idRouteImport } from './routes/marketplace_.$course_id'
 import { Route as ProtectedUserSettingsRouteImport } from './routes/_protected/user/settings'
+import { Route as ProtectedUserPurchasesRouteImport } from './routes/_protected/user/purchases'
 import { Route as ProtectedUserProfileRouteImport } from './routes/_protected/user/profile'
 import { Route as ProtectedUserHomeRouteImport } from './routes/_protected/user/home'
+import { Route as ProtectedAdminUpdateCourseRouteImport } from './routes/_protected/admin/updateCourse'
 import { Route as ProtectedAdminSettingsRouteImport } from './routes/_protected/admin/settings'
 import { Route as ProtectedAdminProfileRouteImport } from './routes/_protected/admin/profile'
 import { Route as ProtectedAdminHomeRouteImport } from './routes/_protected/admin/home'
 import { Route as ProtectedAdminCreateCourseRouteImport } from './routes/_protected/admin/createCourse'
+import { Route as ProtectedUserPurchasesCourse_idRouteImport } from './routes/_protected/user/purchases_.$course_id'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -46,9 +50,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MarketplaceCourse_idRoute = MarketplaceCourse_idRouteImport.update({
+  id: '/marketplace_/$course_id',
+  path: '/marketplace/$course_id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProtectedUserSettingsRoute = ProtectedUserSettingsRouteImport.update({
   id: '/user/settings',
   path: '/user/settings',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any)
+const ProtectedUserPurchasesRoute = ProtectedUserPurchasesRouteImport.update({
+  id: '/user/purchases',
+  path: '/user/purchases',
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
 const ProtectedUserProfileRoute = ProtectedUserProfileRouteImport.update({
@@ -61,6 +75,12 @@ const ProtectedUserHomeRoute = ProtectedUserHomeRouteImport.update({
   path: '/user/home',
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
+const ProtectedAdminUpdateCourseRoute =
+  ProtectedAdminUpdateCourseRouteImport.update({
+    id: '/admin/updateCourse',
+    path: '/admin/updateCourse',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any)
 const ProtectedAdminSettingsRoute = ProtectedAdminSettingsRouteImport.update({
   id: '/admin/settings',
   path: '/admin/settings',
@@ -82,32 +102,46 @@ const ProtectedAdminCreateCourseRoute =
     path: '/admin/createCourse',
     getParentRoute: () => ProtectedRouteRoute,
   } as any)
+const ProtectedUserPurchasesCourse_idRoute =
+  ProtectedUserPurchasesCourse_idRouteImport.update({
+    id: '/user/purchases_/$course_id',
+    path: '/user/purchases/$course_id',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/signup': typeof SignupRoute
+  '/marketplace/$course_id': typeof MarketplaceCourse_idRoute
   '/admin/createCourse': typeof ProtectedAdminCreateCourseRoute
   '/admin/home': typeof ProtectedAdminHomeRoute
   '/admin/profile': typeof ProtectedAdminProfileRoute
   '/admin/settings': typeof ProtectedAdminSettingsRoute
+  '/admin/updateCourse': typeof ProtectedAdminUpdateCourseRoute
   '/user/home': typeof ProtectedUserHomeRoute
   '/user/profile': typeof ProtectedUserProfileRoute
+  '/user/purchases': typeof ProtectedUserPurchasesRoute
   '/user/settings': typeof ProtectedUserSettingsRoute
+  '/user/purchases/$course_id': typeof ProtectedUserPurchasesCourse_idRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/signup': typeof SignupRoute
+  '/marketplace/$course_id': typeof MarketplaceCourse_idRoute
   '/admin/createCourse': typeof ProtectedAdminCreateCourseRoute
   '/admin/home': typeof ProtectedAdminHomeRoute
   '/admin/profile': typeof ProtectedAdminProfileRoute
   '/admin/settings': typeof ProtectedAdminSettingsRoute
+  '/admin/updateCourse': typeof ProtectedAdminUpdateCourseRoute
   '/user/home': typeof ProtectedUserHomeRoute
   '/user/profile': typeof ProtectedUserProfileRoute
+  '/user/purchases': typeof ProtectedUserPurchasesRoute
   '/user/settings': typeof ProtectedUserSettingsRoute
+  '/user/purchases/$course_id': typeof ProtectedUserPurchasesCourse_idRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,13 +150,17 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/signup': typeof SignupRoute
+  '/marketplace_/$course_id': typeof MarketplaceCourse_idRoute
   '/_protected/admin/createCourse': typeof ProtectedAdminCreateCourseRoute
   '/_protected/admin/home': typeof ProtectedAdminHomeRoute
   '/_protected/admin/profile': typeof ProtectedAdminProfileRoute
   '/_protected/admin/settings': typeof ProtectedAdminSettingsRoute
+  '/_protected/admin/updateCourse': typeof ProtectedAdminUpdateCourseRoute
   '/_protected/user/home': typeof ProtectedUserHomeRoute
   '/_protected/user/profile': typeof ProtectedUserProfileRoute
+  '/_protected/user/purchases': typeof ProtectedUserPurchasesRoute
   '/_protected/user/settings': typeof ProtectedUserSettingsRoute
+  '/_protected/user/purchases_/$course_id': typeof ProtectedUserPurchasesCourse_idRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,26 +169,34 @@ export interface FileRouteTypes {
     | '/login'
     | '/marketplace'
     | '/signup'
+    | '/marketplace/$course_id'
     | '/admin/createCourse'
     | '/admin/home'
     | '/admin/profile'
     | '/admin/settings'
+    | '/admin/updateCourse'
     | '/user/home'
     | '/user/profile'
+    | '/user/purchases'
     | '/user/settings'
+    | '/user/purchases/$course_id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/marketplace'
     | '/signup'
+    | '/marketplace/$course_id'
     | '/admin/createCourse'
     | '/admin/home'
     | '/admin/profile'
     | '/admin/settings'
+    | '/admin/updateCourse'
     | '/user/home'
     | '/user/profile'
+    | '/user/purchases'
     | '/user/settings'
+    | '/user/purchases/$course_id'
   id:
     | '__root__'
     | '/'
@@ -158,13 +204,17 @@ export interface FileRouteTypes {
     | '/login'
     | '/marketplace'
     | '/signup'
+    | '/marketplace_/$course_id'
     | '/_protected/admin/createCourse'
     | '/_protected/admin/home'
     | '/_protected/admin/profile'
     | '/_protected/admin/settings'
+    | '/_protected/admin/updateCourse'
     | '/_protected/user/home'
     | '/_protected/user/profile'
+    | '/_protected/user/purchases'
     | '/_protected/user/settings'
+    | '/_protected/user/purchases_/$course_id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -173,6 +223,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MarketplaceRoute: typeof MarketplaceRoute
   SignupRoute: typeof SignupRoute
+  MarketplaceCourse_idRoute: typeof MarketplaceCourse_idRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,11 +263,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/marketplace_/$course_id': {
+      id: '/marketplace_/$course_id'
+      path: '/marketplace/$course_id'
+      fullPath: '/marketplace/$course_id'
+      preLoaderRoute: typeof MarketplaceCourse_idRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_protected/user/settings': {
       id: '/_protected/user/settings'
       path: '/user/settings'
       fullPath: '/user/settings'
       preLoaderRoute: typeof ProtectedUserSettingsRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/_protected/user/purchases': {
+      id: '/_protected/user/purchases'
+      path: '/user/purchases'
+      fullPath: '/user/purchases'
+      preLoaderRoute: typeof ProtectedUserPurchasesRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
     '/_protected/user/profile': {
@@ -231,6 +296,13 @@ declare module '@tanstack/react-router' {
       path: '/user/home'
       fullPath: '/user/home'
       preLoaderRoute: typeof ProtectedUserHomeRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/_protected/admin/updateCourse': {
+      id: '/_protected/admin/updateCourse'
+      path: '/admin/updateCourse'
+      fullPath: '/admin/updateCourse'
+      preLoaderRoute: typeof ProtectedAdminUpdateCourseRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
     '/_protected/admin/settings': {
@@ -261,6 +333,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminCreateCourseRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
+    '/_protected/user/purchases_/$course_id': {
+      id: '/_protected/user/purchases_/$course_id'
+      path: '/user/purchases/$course_id'
+      fullPath: '/user/purchases/$course_id'
+      preLoaderRoute: typeof ProtectedUserPurchasesCourse_idRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
   }
 }
 
@@ -269,9 +348,12 @@ interface ProtectedRouteRouteChildren {
   ProtectedAdminHomeRoute: typeof ProtectedAdminHomeRoute
   ProtectedAdminProfileRoute: typeof ProtectedAdminProfileRoute
   ProtectedAdminSettingsRoute: typeof ProtectedAdminSettingsRoute
+  ProtectedAdminUpdateCourseRoute: typeof ProtectedAdminUpdateCourseRoute
   ProtectedUserHomeRoute: typeof ProtectedUserHomeRoute
   ProtectedUserProfileRoute: typeof ProtectedUserProfileRoute
+  ProtectedUserPurchasesRoute: typeof ProtectedUserPurchasesRoute
   ProtectedUserSettingsRoute: typeof ProtectedUserSettingsRoute
+  ProtectedUserPurchasesCourse_idRoute: typeof ProtectedUserPurchasesCourse_idRoute
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
@@ -279,9 +361,12 @@ const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
   ProtectedAdminHomeRoute: ProtectedAdminHomeRoute,
   ProtectedAdminProfileRoute: ProtectedAdminProfileRoute,
   ProtectedAdminSettingsRoute: ProtectedAdminSettingsRoute,
+  ProtectedAdminUpdateCourseRoute: ProtectedAdminUpdateCourseRoute,
   ProtectedUserHomeRoute: ProtectedUserHomeRoute,
   ProtectedUserProfileRoute: ProtectedUserProfileRoute,
+  ProtectedUserPurchasesRoute: ProtectedUserPurchasesRoute,
   ProtectedUserSettingsRoute: ProtectedUserSettingsRoute,
+  ProtectedUserPurchasesCourse_idRoute: ProtectedUserPurchasesCourse_idRoute,
 }
 
 const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
@@ -294,6 +379,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MarketplaceRoute: MarketplaceRoute,
   SignupRoute: SignupRoute,
+  MarketplaceCourse_idRoute: MarketplaceCourse_idRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

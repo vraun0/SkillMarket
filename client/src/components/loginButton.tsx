@@ -14,7 +14,7 @@ export function Login() {
       >
         <Button
           variant="ghost"
-          className="bg-primary text-white text-base hover:bg-primary/90 transition"
+          className="bg-primary text-background dark:bg-dark-primary dark:text-dark-background text-base hover:bg-primary/90 transition"
         >
           Login
         </Button>
@@ -27,7 +27,7 @@ export function Login() {
       >
         <Button
           variant="ghost"
-          className="bg-background text-primary text-base hover:bg-primary/10 transition"
+          className="bg-background text-primary dark:bg-dark-background dark:text-dark-primary text-base hover:bg-primary/10 transition"
         >
           Sign Up
         </Button>

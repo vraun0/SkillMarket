@@ -1,36 +1,29 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useGetAllCourses } from '@/hooks/useGetAllCourses'
-
+import type { CourseValuesWithId } from '@/types/courseValues'
 import { Header } from '@/components/landingHeader'
+import { CourseCard } from '@/components/courseCard'
+import { api } from '@/lib/axios'
 
 export const Route = createFileRoute('/marketplace')({
+  loader: async () => {
+    const response = await api.get('api/courses/getAll')
+    return response.data
+  },
+  pendingComponent: pendingRouteComponent,
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const { isPending, isError, data, error } = useGetAllCourses()
-  if (isPending) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Loading courses...</p>
-      </div>
-    )
-  }
-
-  if (isError) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-500">Error loading courses: {error?.message}</p>
-      </div>
-    )
-  }
-
+  const data = Route.useLoaderData()
   console.log(data)
 
   if (!data || data.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">No courses available.</p>
+      <div>
+        <Header />
+        <div className="bg-background dark:bg-dark-background min-h-screen flex items-center justify-center">
+          <p className="text-muted-foreground">No courses available.</p>
+        </div>
       </div>
     )
   }
@@ -38,13 +31,19 @@ function RouteComponent() {
   return (
     <div>
       <Header />
-      <div>
-        <p className="mt-4 text-sm text-muted-foreground">
-          You have access to <strong>{data.length}</strong> course
-          {data.length > 1 ? 's' : ''} {JSON.stringify(data.courses)}.
-        </p>
+      <div className="grid bg-background dark:bg-dark-background grid-cols-3 gap-6 p-8">
+        {data.courses.map((course: CourseValuesWithId) => (
+          <CourseCard className="" key={course._id} course={course} />
+        ))}
       </div>
-      <div>Hello "/marketplace"!</div>)
+    </div>
+  )
+}
+function pendingRouteComponent() {
+  return (
+    <div className="bg-background dark:bg-dark-background">
+      <Header />
+      <div>Loading Courses ...</div>
     </div>
   )
 }

@@ -31,19 +31,19 @@ export const Route = createFileRoute('/signup')({
 function RouteComponent() {
   const currentPath = location.pathname
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground">
       <header className="p-4">
         <Logo />
       </header>
 
       <main className="flex-grow flex items-center justify-center px-4">
         <div className="w-full max-w-md">
-          <Card className="bg-card border border-border shadow-xl rounded-2xl overflow-hidden">
+          <Card className="bg-card dark:bg-dark-card border border-border dark:border-dark-text shadow-xl rounded-2xl overflow-hidden">
             <CardHeader className="space-y-2 text-center">
-              <CardTitle className="text-2xl font-semibold">
+              <CardTitle className="text-2xl font-semibold text-foreground dark:text-dark-text">
                 Create an account
               </CardTitle>
-              <CardDescription className="text-muted-foreground text-sm">
+              <CardDescription className="text-muted-foreground dark:text-dark-text text-sm">
                 Enter your email and password to sign up
               </CardDescription>
             </CardHeader>
@@ -54,14 +54,14 @@ function RouteComponent() {
               </div>
             </CardContent>
 
-            <div className="p-4 text-center text-sm text-muted-foreground border-t">
+            <div className="p-4 text-center text-sm text-muted-foreground dark:text-dark-text border-t dark:border-dark-text">
               Already have an account?{' '}
               <Link
                 to="/login"
                 search={{
                   redirect: currentPath,
                 }}
-                className="text-primary hover:underline"
+                className="text-primary dark:text-dark-primary hover:underline"
               >
                 Log In
               </Link>
@@ -84,7 +84,7 @@ function submitButton() {
         <Button
           variant="ghost"
           type="submit"
-          className="bg-primary"
+          className="bg-primary dark:bg-dark-primary text-white"
           disabled={!canSubmit || isSubmitting}
         >
           Sign Up
@@ -100,7 +100,7 @@ function nameField() {
     <div className="space-y-1">
       <label
         htmlFor="name"
-        className="block text-sm font-medium text-foreground"
+        className="block text-sm font-medium text-foreground dark:text-dark-text"
       >
         Name
       </label>
@@ -108,7 +108,7 @@ function nameField() {
         id="name"
         placeholder="Your Name"
         type="text"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-md border border-input dark:border-dark-text bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         value={field.state.value}
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
@@ -128,7 +128,7 @@ function emailField() {
     <div className="space-y-1">
       <label
         htmlFor="email"
-        className="block text-sm font-medium text-foreground"
+        className="block text-sm font-medium text-foreground dark:text-dark-text"
       >
         Email
       </label>
@@ -136,7 +136,7 @@ function emailField() {
         id="email"
         type="email"
         placeholder="you@example.com"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-md border border-input dark:border-dark-text bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         value={field.state.value}
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
@@ -156,7 +156,7 @@ function passwordField() {
     <div className="space-y-1">
       <label
         htmlFor="password"
-        className="block text-sm font-medium text-foreground"
+        className="block text-sm font-medium text-foreground dark:text-dark-text"
       >
         Password
       </label>
@@ -164,7 +164,7 @@ function passwordField() {
         id="password"
         type="password"
         placeholder="••••••••"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-md border border-input dark:border-dark-text bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         value={field.state.value}
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
@@ -187,9 +187,12 @@ function adminCheckboxField() {
         type="checkbox"
         checked={field.state.value}
         onChange={(e) => field.handleChange(e.target.checked)}
-        className="accent-primary"
+        className="accent-primary dark:accent-dark-primary"
       />
-      <label htmlFor="admin" className="text-sm text-foreground">
+      <label
+        htmlFor="admin"
+        className="text-sm text-foreground dark:text-dark-text"
+      >
         Sign up as Admin
       </label>
     </div>

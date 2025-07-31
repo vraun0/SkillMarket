@@ -1,7 +1,24 @@
 const courseModel = require("../models/course");
 const userModel = require("../models/user");
 const appError = require("../utils/appError");
-const { courseSchema, purchaseSchema } = require("../utils/validationSchemas");
+const {
+  courseIdSchema,
+  courseSchema,
+  purchaseSchema,
+} = require("../utils/validationSchemas");
+exports.getCourse = async (req, res) => {
+  const parsed = courseIdSchema.safeParse(req.body);
+  if (!parsed.success) {
+    throw new appError("Course Id validation falied", 400, parsed.error.errors);
+  }
+  try {
+    const coursedata = await courseModel.find({ _id: parsed.data._id });
+    const course = coursedata[0];
+    res.status(200).json({ course });
+  } catch (error) {
+    res.status(500).json({ message: "failed to fetch course", error });
+  }
+};
 
 exports.getAllCourses = async (req, res) => {
   try {
@@ -23,12 +40,16 @@ exports.createCourse = async (req, res) => {
   }
 
   const newCourse = await courseModel.create({
-    title: req.body.title,
-    description: req.body.description,
-    instructor: req.user._id,
-    tags: req.body.tags,
-    price: req.body.price,
-    thumbnail: req.body.thumbnail,
+    title: parsed.data.title,
+    description: parsed.data.description,
+    instructor: parsed.data.instructor,
+    tags: parsed.data.tags,
+    price: parsed.data.price,
+    thumbnail: parsed.data.thumbnail,
+  });
+
+  await userModel.findByIdAndUpdate(req.user._id, {
+    $push: { courseIds: newCourse._id },
   });
 
   res.status(201).json({ message: "Course created", course: newCourse });
