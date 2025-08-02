@@ -19,8 +19,6 @@ import { useCreateCourse } from '@/hooks/useCreateCourse'
 import { courseSchema } from '@/schemas/courseSchema'
 import MDEditor from '@uiw/react-md-editor'
 
-
-
 export const Route = createFileRoute('/_protected/admin/updateCourse')({
   component: RouteComponent,
 })
@@ -115,7 +113,7 @@ export function descriptionField() {
         className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         value={field.state.value}
         onBlur={field.handleBlur}
-        onChange={val => field.handleChange(val ?? '')} 
+        onChange={(val) => field.handleChange(val ?? '')}
       />
       {!field.state.meta.isValid && (
         <p className="text-xs text-red-500 mt-1">
@@ -270,7 +268,7 @@ const defaultCourseValues: CourseValues = {
 }
 
 function Login() {
-  const [formError, setFormError] = useState('')
+  const [formError] = useState('')
   const navigate = useNavigate({ from: '/admin/createCourse' })
   const { auth } = useRouteContext({ from: '/_protected/admin/createCourse' })
   const createCourse = useCreateCourse(auth)

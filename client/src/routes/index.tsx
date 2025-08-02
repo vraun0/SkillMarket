@@ -1,9 +1,9 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { Header } from '@/components/landing/landingHeader'
 import { Hero } from '@/components/landing/hero'
-import { Footer } from '@/components/landing/footer'
 import { Features } from '@/components/landing/features'
 import { CTA } from '@/components/landing/cta'
+import { Footer } from '@/components/footer'
 
 export const Route = createFileRoute('/')({
   beforeLoad: ({ context }) => {

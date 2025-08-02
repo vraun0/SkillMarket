@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { Login } from '@/components/loginButton'
+import { Link } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
 
 export function CTA() {
   return (
@@ -12,10 +13,21 @@ export function CTA() {
       >
         <h2 className="text-4xl font-bold">Ready to Elevate Your Skills?</h2>
         <p className="text-lg">
-          Join a vibrant marketplace of learners, creators, and professionals.
+          Explore a vibrant marketplace of created by experts, creators, and
+          professionals.
         </p>
         <div className="flex items-center justify-center">
-          <Login />
+          <Link
+            to="/marketplace"
+            className="text-base font-medium text-muted-foreground hover:text-foreground transition"
+          >
+            <Button
+              variant={'ghost'}
+              className="bg-primary text-background dark:bg-dark-primary dark:text-dark-background"
+            >
+              Marketplace
+            </Button>
+          </Link>
         </div>
       </motion.div>
     </section>

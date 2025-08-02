@@ -22,7 +22,7 @@ export function CourseCard({ course, className }: Props) {
     <div>
       <Card
         className={cn(
-          'bg-background dark:bg-dark-background h-128 border border-border shadow-xl dark:shadow-xl dark:shadow-green-950 rounded-2xl overflow-hidden',
+          'bg-background dark:bg-dark-background h-128 border border-border shadow-xl dark:shadow-xl dark:shadow-black rounded-2xl overflow-hidden',
           className,
         )}
       >
@@ -36,14 +36,15 @@ export function CourseCard({ course, className }: Props) {
           <CardTitle className="text-2xl font-semibold text-text dark:text-dark-text">
             {course.title}
           </CardTitle>
-          <CardDescription className="text-muted-foreground text-sm overflow-hidden text-text dark:text-dark-text">
+
+          <CardDescription className="text-muted-text text-sm overflow-y-auto text-text dark:text-dark-muted-text max-h-24 pr-2">
             <ReactMarkdown>{course.description}</ReactMarkdown>
           </CardDescription>
         </CardHeader>
 
         <CardContent>
           <div className="text-center text-sm text-muted-foreground border-t dark:border-t-white">
-            <div className="p-2 text-text dark:text-dark-text font-semibold text-xl">
+            <div className="p-4 text-text dark:text-dark-text font-semibold text-xl">
               Price: {course.price}
             </div>
             <div className="flex justify-around">

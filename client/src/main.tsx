@@ -1,4 +1,4 @@
-import { StrictMode,useEffect } from 'react'
+import { StrictMode, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
@@ -27,18 +27,20 @@ declare module '@tanstack/react-router' {
 }
 const queryClient = new QueryClient()
 // Render the app
-//
+
 function App() {
   const auth = useAuth()
   const theme = useThemeStore((state) => state.theme)
 
   useEffect(() => {
     const root = document.documentElement
-    root.classList.remove("light", "dark")
+    root.classList.remove('light', 'dark')
 
-    if (theme === "system") {
-      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-      root.classList.add(systemPrefersDark ? "dark" : "light")
+    if (theme === 'system') {
+      const systemPrefersDark = window.matchMedia(
+        '(prefers-color-scheme: dark)',
+      ).matches
+      root.classList.add(systemPrefersDark ? 'dark' : 'light')
     } else {
       root.classList.add(theme)
     }
@@ -46,7 +48,6 @@ function App() {
 
   return <RouterProvider router={router} context={{ auth }} />
 }
-
 
 const rootElement = document.getElementById('app')
 if (rootElement && !rootElement.innerHTML) {

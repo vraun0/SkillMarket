@@ -1,8 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
-import type { CourseValuesWithId } from '@/types/courseValues'
+import { useState } from 'react'
 import { Header } from '@/components/landing/landingHeader'
-import { CourseCard } from '@/components/courseCard'
 import { api } from '@/lib/axios'
+import { CourseCards } from '@/components/marketplace/coursecards'
+import { Toolbar } from '@/components/marketplace/toolbar'
+import { Footer } from '@/components/footer'
 
 export const Route = createFileRoute('/marketplace')({
   loader: async () => {
@@ -14,10 +16,22 @@ export const Route = createFileRoute('/marketplace')({
 })
 
 function RouteComponent() {
-  const data = Route.useLoaderData()
-  console.log(data)
+  const { courses } = Route.useLoaderData()
+  const [sortBy, setSortBy] = useState<'title' | 'price' | 'date'>('title')
 
-  if (!data || data.length === 0) {
+  const sortedCourses = [...courses].sort((a, b) => {
+    switch (sortBy) {
+      case 'price':
+        return a.price - b.price
+      case 'date':
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      case 'title':
+      default:
+        return a.title.localeCompare(b.title)
+    }
+  })
+
+  if (!courses || courses.length === 0) {
     return (
       <div>
         <Header />
@@ -29,13 +43,11 @@ function RouteComponent() {
   }
 
   return (
-    <div>
+    <div className="bg-gradient-to-br from-white to-background dark:from-gray-900 dark:to-dark-background">
       <Header />
-      <div className="grid bg-background dark:bg-dark-background grid-cols-3 gap-6 p-8">
-        {data.courses.map((course: CourseValuesWithId) => (
-          <CourseCard className="" key={course._id} course={course} />
-        ))}
-      </div>
+      <Toolbar value={sortBy} onChange={setSortBy} />
+      <CourseCards courses={sortedCourses} />
+      <Footer />
     </div>
   )
 }

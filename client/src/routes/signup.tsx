@@ -31,7 +31,7 @@ export const Route = createFileRoute('/signup')({
 function RouteComponent() {
   const currentPath = location.pathname
   return (
-    <div className="min-h-screen flex flex-col bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-white to-background dark:from-gray-900 dark:to-dark-background">
       <header className="p-4">
         <Logo />
       </header>

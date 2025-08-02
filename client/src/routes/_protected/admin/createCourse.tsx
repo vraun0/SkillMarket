@@ -178,7 +178,7 @@ export function tagsField() {
         {field.state.value.map((tag, idx) => (
           <span
             key={idx}
-            className="bg-muted text-foreground text-xs px-2 py-1 rounded-full border border-muted-foreground"
+            className="bg-muted text-muted-text dark: text-dark-muted-text text-xs px-2 py-1 rounded-full border border-muted-foreground"
           >
             {tag}
           </span>
@@ -267,7 +267,7 @@ const defaultCourseValues: CourseValues = {
 }
 
 function Login() {
-  const [formError, setFormError] = useState('')
+  const [formError] = useState('')
   const navigate = useNavigate({ from: '/admin/createCourse' })
   const { auth } = useRouteContext({ from: '/_protected/admin/createCourse' })
   const createCourse = useCreateCourse(auth)

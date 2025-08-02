@@ -45,7 +45,7 @@ function RouteComponent() {
     )
   }
   return (
-    <div className="bg-background dark:bg-dark-background text-text dark:text-dark-tex">
+    <div className="bg-background dark:bg-dark-background text-text dark:text-dark-text">
       <Header />
       <div className="p-4 text-3xl">Your Courses</div>
       <div className="grid  grid-cols-3 gap-6 p-8">
