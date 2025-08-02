@@ -7,26 +7,15 @@ const adminRouter = require("./routes/admin");
 const coursesRouter = require("./routes/courses");
 const cors = require("cors");
 
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log("MongoDB connected");
-
-    app.listen(port, () => {
-      console.log(`Server running on http://localhost:${port}`);
-    });
-  })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err);
-    process.exit(1);
-  });
-
 const port = 3001;
+
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://skill-market-pi.vercel.app/"],
+    origin: ["http://localhost:3000", "https://skill-market-pi.vercel.app"],
+    credentials: true,
   }),
 );
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "frontend/dist")));
 
@@ -45,6 +34,15 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.all("/{*any}", (req, res) => {
-  res.sendFile(path.join(__dirname, "/frontend/dist/index.html"));
-});
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("MongoDB connected");
+    app.listen(port, () => {
+      console.log(`Server running on http://localhost:${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
+  });
