@@ -13,17 +13,17 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
-    outDir: '../server/frontend/dist', // <-- your custom output directory (relative to frontend root)
+    outDir: 'dist', 
     emptyOutDir: true,
   },
   resolve: {
     alias: {
-     '@': resolve(__dirname, './src'),
+      '@': resolve(__dirname, './src'),
     },
   },
   server: {
     proxy: {
-      '/api' : 'http://localhost:3001',
+      '/api': 'http://localhost:3001',
     },
   },
 })
