@@ -45,9 +45,9 @@ function RouteComponent() {
     )
   }
   return (
-    <div className="bg-background dark:bg-dark-background text-text dark:text-dark-text">
+    <div className="bg-gradient-to-br from-white to-background dark:from-gray-900 dark:to-dark-background">
       <Header />
-      <div className="p-4 text-3xl">Your Courses</div>
+      <div className="p-4 text-3xl text-text dark:text-dark-text">Your Courses</div>
       <div className="grid  grid-cols-3 gap-6 p-8">
         {data.courseList.map((course: CourseValuesWithId) => (
           <CourseCard className="" key={course._id} course={course} />

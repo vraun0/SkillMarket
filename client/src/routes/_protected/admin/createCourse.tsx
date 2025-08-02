@@ -24,7 +24,7 @@ export const Route = createFileRoute('/_protected/admin/createCourse')({
 })
 function RouteComponent() {
   return (
-    <div className="min-h-screen flex flex-col bg-background dark:bg-dark-background">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-white to-background dark:from-gray-900 dark:to-dark-background">
       {/* Header */}
       <header className="p-4">
         <div className="text-2xl font-bold text-primary dark:text-dark-primary">

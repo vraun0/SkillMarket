@@ -47,20 +47,15 @@ function RouteComponent() {
   return (
     <div>
       <Header />
-      <div className="min-h-screen flex flex-col bg-background text-text dark:bg-dark-background dark:text-dark-text">
+      <div className="min-h-screen flex flex-col bg-gradient-to-br from-white to-background dark:from-gray-900 dark:to-dark-background">
         <main className="flex-grow flex flex-col items-center justify-center px-4 text-center">
-          <h1 className="text-4xl font-bold tracking-tight mb-4">
+          <h1 className="text-4xl font-bold tracking-tight mb-4 text-text dark:text-dark-text">
             Welcome{auth.user?.name ? `, ${auth.user.name}` : ''}!
           </h1>
-          <p className="text-muted-foreground max-w-md">
+          <p className="text-muted-text dark:text-dark-muted-text max-w-md">
             You’ve successfully logged in to{' '}
             <span className="font-medium">SkillMarket</span>. Use the navigation
             above to explore your profile, settings, and more.
-          </p>
-
-          <p className="mt-4 text-sm text-muted-foreground">
-            You have access to <strong>{data.length}</strong> course
-            {data.length > 1 ? 's' : ''}.
           </p>
         </main>
       </div>

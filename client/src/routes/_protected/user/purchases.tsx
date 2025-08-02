@@ -1,9 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+import Construction from '@/components/construction'
 
 export const Route = createFileRoute('/_protected/user/purchases')({
-  component: RouteComponent,
+  component: Construction,
 })
-
-function RouteComponent() {
-  return <div>Hello "/_protected/user/purchases"!</div>
-}
