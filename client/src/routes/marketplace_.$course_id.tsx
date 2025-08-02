@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import ReactMarkdown from 'react-markdown'
 import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 import { api } from '@/lib/axios'
 import { CourseCard } from '@/components/courseCard'
 import { Footer } from '@/components/footer'
@@ -18,7 +19,7 @@ export const Route = createFileRoute('/marketplace_/$course_id')({
 function RouteComponent() {
   const { course } = Route.useLoaderData()
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -28,13 +29,13 @@ function RouteComponent() {
     },
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: 'spring',
+        type: 'spring' as const, // or omit 'as const' if using Variants type
         stiffness: 100,
       },
     },
