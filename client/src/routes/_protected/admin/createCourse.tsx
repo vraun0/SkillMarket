@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-router'
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
 import { useState } from 'react'
+import MDEditor from '@uiw/react-md-editor'
 import type { CourseValues } from '@/types/courseValues'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,17 +18,16 @@ import {
 } from '@/components/ui/card'
 import { useCreateCourse } from '@/hooks/useCreateCourse'
 import { courseSchema } from '@/schemas/courseSchema'
-import MDEditor from '@uiw/react-md-editor'
 
 export const Route = createFileRoute('/_protected/admin/createCourse')({
   component: RouteComponent,
 })
 function RouteComponent() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-dark-background">
       {/* Header */}
       <header className="p-4">
-        <div className="text-2xl font-bold text-primary">
+        <div className="text-2xl font-bold text-primary dark:text-dark-primary">
           <Link to="/">
             <span className="text-primary">Skill</span>
             <span className="text-green-600">Market</span>
@@ -38,12 +38,12 @@ function RouteComponent() {
       {/* Centered Card */}
       <main className="flex-grow flex items-center justify-center px-4">
         <div className="w-full max-w-md">
-          <Card className="bg-card border border-border shadow-xl rounded-2xl overflow-hidden">
+          <Card className="bg-card border border-border dark:border-dark-text shadow-xl rounded-2xl overflow-hidden">
             <CardHeader className="space-y-2 text-center">
-              <CardTitle className="text-2xl font-semibold">
+              <CardTitle className="text-2xl font-semibold dark:text-dark-text">
                 Create your course
               </CardTitle>
-              <CardDescription className="text-muted-foreground text-sm">
+              <CardDescription className="text-muted-foreground text-sm dark:text-dark-text">
                 Enter the course details to continue
               </CardDescription>
             </CardHeader>
@@ -71,7 +71,7 @@ function submitButton() {
         <Button
           variant="ghost"
           type="submit"
-          className="bg-primary"
+          className="bg-primary dark:bg-dark-primary"
           disabled={!canSubmit || isSubmitting}
         >
           Submit
@@ -88,7 +88,7 @@ export function titleField() {
     <>
       <input
         id="title"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-md border border-input dark:border-background bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         placeholder="Enter course title"
         value={field.state.value}
         onBlur={field.handleBlur}
@@ -109,10 +109,10 @@ export function descriptionField() {
     <>
       <MDEditor
         id="description"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-md border border-input dark:border-background bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         value={field.state.value}
         onBlur={field.handleBlur}
-        onChange={val => field.handleChange(val ?? '')} 
+        onChange={(val) => field.handleChange(val ?? '')}
       />
       {!field.state.meta.isValid && (
         <p className="text-xs text-red-500 mt-1">
@@ -129,7 +129,7 @@ export function instructorField() {
     <>
       <input
         id="instructor"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-md border border-input dark:border-background bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         placeholder="Enter instructor name"
         value={field.state.value}
         onBlur={field.handleBlur}
@@ -171,7 +171,7 @@ export function tagsField() {
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Type and press comma or space"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-md border border-input dark:border-background bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
       />
 
       <div className="flex flex-wrap gap-2 mt-2">
@@ -209,7 +209,7 @@ export function priceField() {
         }}
         onBlur={field.handleBlur}
         placeholder="Enter course price"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-md border border-input dark:border-background bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
       />
       {!field.state.meta.isValid && (
         <p className="text-xs text-red-500 mt-1">
@@ -226,7 +226,7 @@ export function thumbnailField() {
     <>
       <input
         id="thumbnail"
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-md border border-input dark:border-background bg-background dark:bg-dark-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground dark:placeholder:text-green-900 dark:text-dark-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         placeholder="https://example.com/image.png"
         value={field.state.value}
         onBlur={field.handleBlur}

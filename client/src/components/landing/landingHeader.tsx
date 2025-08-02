@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
-import { Logo } from './headerLogo'
-import { ModeToggle } from './mode-toggle'
+import { Logo } from '../headerLogo'
+import { ModeToggle } from '../mode-toggle'
 import { Button } from '@/components/ui/button'
 import { Login } from '@/components/loginButton'
 

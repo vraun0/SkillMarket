@@ -8,6 +8,7 @@ import type { CourseValuesWithId } from '@/types/courseValues'
 import { useGetCourses } from '@/hooks/useGetCourses'
 import { Button } from '@/components/ui/button'
 import { CourseCard } from '@/components/courseCard'
+import { ModeToggle } from '@/components/mode-toggle'
 
 export const Route = createFileRoute('/_protected/admin/home')({
   component: RouteComponent,
@@ -44,10 +45,10 @@ function RouteComponent() {
     )
   }
   return (
-    <div>
+    <div className="bg-background dark:bg-dark-background text-text dark:text-dark-tex">
       <Header />
       <div className="p-4 text-3xl">Your Courses</div>
-      <div className="grid bg-background grid-cols-3 gap-6 p-8">
+      <div className="grid  grid-cols-3 gap-6 p-8">
         {data.courseList.map((course: CourseValuesWithId) => (
           <CourseCard className="" key={course._id} course={course} />
         ))}
@@ -57,20 +58,23 @@ function RouteComponent() {
 }
 function Header() {
   return (
-    <header className="p-4 bg-secondary shadow-md">
+    <header className="p-4 bg-secondary dark:text-dark-text dark:bg-dark-secondary shadow-md">
       <nav className="container flex items-center justify-between mx-auto w-full max-w-screen-xl px-6 ">
         {/* Left section: Logo and Create */}
         <div className="text-xl flex items-center font-bold space-x-4">
           <Link to="/" className="flex items-center ">
             <span className="text-2xl text-primary">Skill</span>
             <span className="text-2xl text-green-600">Market</span>
-            <span className="pb-2 text-xs font-semibold rounded-full bg-destructive text-text">
+            <span className="pb-2 text-xs dark:text-dark-text font-semibold rounded-full bg-destructive text-text">
               ADMIN
             </span>
           </Link>
           <span className="font-light text-xl">|</span>
           <Link to="/admin/createCourse">
-            <Button variant="ghost" className="bg-primary text-background">
+            <Button
+              variant="ghost"
+              className="bg-primary text-background dark:bg-dark-primary dark:text-dark-background"
+            >
               Create
             </Button>
           </Link>
@@ -84,6 +88,9 @@ function Header() {
           <Link to="/admin/settings" className="hover:underline">
             Settings
           </Link>
+          <div>
+            <ModeToggle />
+          </div>
           <Logout />
         </div>
       </nav>
@@ -104,7 +111,7 @@ function Logout() {
     <div>
       <Button
         variant="ghost"
-        className="bg-primary text-background"
+        className="bg-primary text-background dark:bg-dark-primary dark:text-dark-background"
         onClick={logoutHandler}
       >
         Logout

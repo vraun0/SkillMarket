@@ -6,12 +6,14 @@
 @theme {
   /* light theme */
   --color-text: #040b04;
+  --color-muted-text: #191f1b;
   --color-background: #f1faf1;
   --color-primary: #46c14b;
   --color-secondary: #d8f3d9;
   --color-accent: #6dd571;
   /* dark theme  */
   --color-dark-text: #f4fbf4;
+  --color-dark-muted-text: #b4ccbc;
   --color-dark-background: #050f05;
   --color-dark-primary: #3db841;
   --color-dark-secondary: #1e6221;

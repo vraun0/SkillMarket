@@ -7,6 +7,7 @@ import {
 import { useGetCourses } from '@/hooks/useGetCourses'
 import { Button } from '@/components/ui/button'
 import { Logo } from '@/components/headerLogo'
+import { ModeToggle } from '@/components/mode-toggle'
 
 export const Route = createFileRoute('/_protected/user/home')({
   component: RouteComponent,
@@ -46,7 +47,7 @@ function RouteComponent() {
   return (
     <div>
       <Header />
-      <div className="min-h-screen flex flex-col bg-background text-foreground">
+      <div className="min-h-screen flex flex-col bg-background text-text dark:bg-dark-background dark:text-dark-text">
         <main className="flex-grow flex flex-col items-center justify-center px-4 text-center">
           <h1 className="text-4xl font-bold tracking-tight mb-4">
             Welcome{auth.user?.name ? `, ${auth.user.name}` : ''}!
@@ -69,7 +70,7 @@ function RouteComponent() {
 
 function Header() {
   return (
-    <header className="p-4 bg-secondary shadow-md">
+    <header className="p-4 bg-secondary dark:bg-dark-secondary shadow-md">
       <nav className="container flex items-center justify-between mx-auto w-full max-w-screen-xl px-6 ">
         <div className="flex items-center space-x-6">
           <Logo />
@@ -77,19 +78,31 @@ function Header() {
             to="/marketplace"
             className="text-base font-medium text-muted-foreground hover:text-foreground transition"
           >
-            <Button variant={'ghost'} className="bg-primary text-background">
+            <Button
+              variant={'ghost'}
+              className="bg-primary text-background dark:bg-dark-primary dark:text-text"
+            >
               Marketplace
             </Button>
           </Link>
         </div>
 
         <div className="flex items-center gap-4 text-sm">
-          <Link to="/user/profile" className="hover:underline">
+          <Link
+            to="/user/profile"
+            className="hover:underline dark:text-dark-text"
+          >
             Profile
           </Link>
-          <Link to="/user/settings" className="hover:underline">
+          <Link
+            to="/user/settings"
+            className="hover:underline dark:text-dark-text"
+          >
             Settings
           </Link>
+          <div>
+            <ModeToggle />
+          </div>
           <Logout />
         </div>
       </nav>
@@ -109,7 +122,7 @@ function Logout() {
     <div>
       <Button
         variant="ghost"
-        className="bg-primary text-background"
+        className="bg-primary text-background dark:bg-dark-primary dark:text-text"
         onClick={logoutHandler}
       >
         Logout

@@ -22,7 +22,7 @@ export function CourseCard({ course, className }: Props) {
     <div>
       <Card
         className={cn(
-          'bg-background dark:bg-dark-background h-128 border border-border shadow-xl dark:shadow-xs dark:shadow-dark-primary rounded-2xl overflow-hidden',
+          'bg-background dark:bg-dark-background h-128 border border-border shadow-xl dark:shadow-xl dark:shadow-green-950 rounded-2xl overflow-hidden',
           className,
         )}
       >

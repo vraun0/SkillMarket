@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import type { CourseValuesWithId } from '@/types/courseValues'
-import { Header } from '@/components/landingHeader'
+import { Header } from '@/components/landing/landingHeader'
 import { CourseCard } from '@/components/courseCard'
 import { api } from '@/lib/axios'
 
