@@ -5,6 +5,7 @@ const path = require("path");
 const userRouter = require("./routes/user");
 const adminRouter = require("./routes/admin");
 const coursesRouter = require("./routes/courses");
+const cors = require("cors");
 
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -21,7 +22,11 @@ mongoose
   });
 
 const port = 3001;
-
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://skill-market-pi.vercel.app/"],
+  }),
+);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "frontend/dist")));
 
