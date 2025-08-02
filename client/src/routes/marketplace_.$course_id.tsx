@@ -8,9 +8,12 @@ import { Footer } from '@/components/footer'
 
 export const Route = createFileRoute('/marketplace_/$course_id')({
   loader: async ({ params }) => {
-    const response = await api.post('api/courses/getCourse', {
-      _id: params.course_id,
-    })
+    const response = await api.post(
+      'https://skillmarket.onrender.com/api/courses/getCourse',
+      {
+        _id: params.course_id,
+      },
+    )
     return response.data
   },
   component: RouteComponent,

@@ -8,12 +8,16 @@ export const useCreateCourse = (auth: AuthState) => {
   return useMutation({
     mutationFn: async (values: CourseValues) => {
       console.log(values)
-      const result = await api.post('api/courses/create', values, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+      const result = await api.post(
+        'https://skillmarket.onrender.com/api/courses/create',
+        values,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
         },
-      })
+      )
       return result
     },
   })

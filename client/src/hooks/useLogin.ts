@@ -8,7 +8,9 @@ export const useLogin = () => {
       password: string
       admin: boolean
     }) => {
-      const endpoint = values.admin ? 'api/admin/login' : 'api/user/login'
+      const endpoint = values.admin
+        ? 'https://skillmarket.onrender.com/api/admin/login'
+        : 'https://skillmarket.onrender.com/api/user/login'
       const response = await api.post(endpoint, values)
       return response.data
     },

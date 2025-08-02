@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+iport { useQuery } from '@tanstack/react-query'
 import type { AuthState } from '@/types/authState'
 import { api } from '@/lib/axios'
 
@@ -8,7 +8,7 @@ export const useGetCourses = (auth: AuthState) => {
   return useQuery({
     queryKey: ['Courses', token],
     queryFn: async () => {
-      const response = await api.get('api/courses/get', {
+      const response = await api.get('https://skillmarket.onrender.com/api/courses/get', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

@@ -12,7 +12,9 @@ export const useSignup = () => {
       password: string
       admin: boolean
     }) => {
-      const endpoint = admin ? 'api/admin/signup' : 'api/user/signup'
+      const endpoint = admin
+        ? 'https://skillmarket.onrender.com/api/admin/signup'
+        : 'https://skillmarket.onrender.com/api/user/signup'
       const response = await api.post(endpoint, rest) // 'rest' does not include 'admin'
       return response.data
     },
