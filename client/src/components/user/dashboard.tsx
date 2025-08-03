@@ -7,7 +7,7 @@ import { useGetCourses } from '@/hooks/useGetCourses'
 export function Dashboard() {
   const { auth } = useRouteContext({ from: '/_protected/user/home' })
 
-  const { isPending, isError, data, error } = useGetCourses(auth)
+  const { isPending, isError, data } = useGetCourses(auth)
 
   if (isPending) return <Pending />
   if (isError) return <Error />
