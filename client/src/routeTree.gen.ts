@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as CourseRouteRouteImport } from './routes/course/route'
 import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MarketplaceCourse_idRouteImport } from './routes/marketplace_.$course_id'
+import { Route as CourseCourse_idRouteImport } from './routes/course/$course_id'
 import { Route as ProtectedUserSettingsRouteImport } from './routes/_protected/user/settings'
 import { Route as ProtectedUserPurchasesRouteImport } from './routes/_protected/user/purchases'
 import { Route as ProtectedUserProfileRouteImport } from './routes/_protected/user/profile'
@@ -41,6 +43,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CourseRouteRoute = CourseRouteRouteImport.update({
+  id: '/course',
+  path: '/course',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
   id: '/_protected',
   getParentRoute: () => rootRouteImport,
@@ -54,6 +61,11 @@ const MarketplaceCourse_idRoute = MarketplaceCourse_idRouteImport.update({
   id: '/marketplace_/$course_id',
   path: '/marketplace/$course_id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const CourseCourse_idRoute = CourseCourse_idRouteImport.update({
+  id: '/$course_id',
+  path: '/$course_id',
+  getParentRoute: () => CourseRouteRoute,
 } as any)
 const ProtectedUserSettingsRoute = ProtectedUserSettingsRouteImport.update({
   id: '/user/settings',
@@ -111,9 +123,11 @@ const ProtectedUserPurchasesCourse_idRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/course': typeof CourseRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/signup': typeof SignupRoute
+  '/course/$course_id': typeof CourseCourse_idRoute
   '/marketplace/$course_id': typeof MarketplaceCourse_idRoute
   '/admin/createCourse': typeof ProtectedAdminCreateCourseRoute
   '/admin/home': typeof ProtectedAdminHomeRoute
@@ -128,9 +142,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/course': typeof CourseRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/signup': typeof SignupRoute
+  '/course/$course_id': typeof CourseCourse_idRoute
   '/marketplace/$course_id': typeof MarketplaceCourse_idRoute
   '/admin/createCourse': typeof ProtectedAdminCreateCourseRoute
   '/admin/home': typeof ProtectedAdminHomeRoute
@@ -147,9 +163,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_protected': typeof ProtectedRouteRouteWithChildren
+  '/course': typeof CourseRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/signup': typeof SignupRoute
+  '/course/$course_id': typeof CourseCourse_idRoute
   '/marketplace_/$course_id': typeof MarketplaceCourse_idRoute
   '/_protected/admin/createCourse': typeof ProtectedAdminCreateCourseRoute
   '/_protected/admin/home': typeof ProtectedAdminHomeRoute
@@ -166,9 +184,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/course'
     | '/login'
     | '/marketplace'
     | '/signup'
+    | '/course/$course_id'
     | '/marketplace/$course_id'
     | '/admin/createCourse'
     | '/admin/home'
@@ -183,9 +203,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/course'
     | '/login'
     | '/marketplace'
     | '/signup'
+    | '/course/$course_id'
     | '/marketplace/$course_id'
     | '/admin/createCourse'
     | '/admin/home'
@@ -201,9 +223,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_protected'
+    | '/course'
     | '/login'
     | '/marketplace'
     | '/signup'
+    | '/course/$course_id'
     | '/marketplace_/$course_id'
     | '/_protected/admin/createCourse'
     | '/_protected/admin/home'
@@ -220,6 +244,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
+  CourseRouteRoute: typeof CourseRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
   MarketplaceRoute: typeof MarketplaceRoute
   SignupRoute: typeof SignupRoute
@@ -249,6 +274,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/course': {
+      id: '/course'
+      path: '/course'
+      fullPath: '/course'
+      preLoaderRoute: typeof CourseRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_protected': {
       id: '/_protected'
       path: ''
@@ -269,6 +301,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/marketplace/$course_id'
       preLoaderRoute: typeof MarketplaceCourse_idRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/course/$course_id': {
+      id: '/course/$course_id'
+      path: '/$course_id'
+      fullPath: '/course/$course_id'
+      preLoaderRoute: typeof CourseCourse_idRouteImport
+      parentRoute: typeof CourseRouteRoute
     }
     '/_protected/user/settings': {
       id: '/_protected/user/settings'
@@ -373,9 +412,22 @@ const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
   ProtectedRouteRouteChildren,
 )
 
+interface CourseRouteRouteChildren {
+  CourseCourse_idRoute: typeof CourseCourse_idRoute
+}
+
+const CourseRouteRouteChildren: CourseRouteRouteChildren = {
+  CourseCourse_idRoute: CourseCourse_idRoute,
+}
+
+const CourseRouteRouteWithChildren = CourseRouteRoute._addFileChildren(
+  CourseRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
+  CourseRouteRoute: CourseRouteRouteWithChildren,
   LoginRoute: LoginRoute,
   MarketplaceRoute: MarketplaceRoute,
   SignupRoute: SignupRoute,
