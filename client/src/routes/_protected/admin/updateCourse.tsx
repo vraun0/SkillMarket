@@ -1,5 +1,5 @@
 import {
-  Link,
+  // Link,
   createFileRoute,
   useNavigate,
   useRouteContext,
@@ -8,13 +8,13 @@ import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
 import { useState } from 'react'
 import type { CourseValues } from '@/types/courseValues'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardHeader,
+//   CardTitle,
+// } from '@/components/ui/card'
 import { useCreateCourse } from '@/hooks/useCreateCourse'
 import { courseSchema } from '@/schemas/courseSchema'
 import MDEditor from '@uiw/react-md-editor'
