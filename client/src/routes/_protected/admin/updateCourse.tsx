@@ -1,13 +1,13 @@
 import {
   // Link,
   createFileRoute,
-  useNavigate,
-  useRouteContext,
+  // useNavigate,
+  // useRouteContext,
 } from '@tanstack/react-router'
-import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
-import { useState } from 'react'
-import type { CourseValues } from '@/types/courseValues'
-import { Button } from '@/components/ui/button'
+// import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
+// import { useState } from 'react'
+// import type { CourseValues } from '@/types/courseValues'
+// import { Button } from '@/components/ui/button'
 // import {
 //   Card,
 //   CardContent,
@@ -15,9 +15,9 @@ import { Button } from '@/components/ui/button'
 //   CardHeader,
 //   CardTitle,
 // } from '@/components/ui/card'
-import { useCreateCourse } from '@/hooks/useCreateCourse'
-import { courseSchema } from '@/schemas/courseSchema'
-import MDEditor from '@uiw/react-md-editor'
+// import { useCreateCourse } from '@/hooks/useCreateCourse'
+// import { courseSchema } from '@/schemas/courseSchema'
+// import MDEditor from '@uiw/react-md-editor'
 import Construction from '@/components/construction'
 
 export const Route = createFileRoute('/_protected/admin/updateCourse')({
