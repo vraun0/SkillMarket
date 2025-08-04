@@ -18,15 +18,17 @@ import {
 import { useCreateCourse } from '@/hooks/useCreateCourse'
 import { courseSchema } from '@/schemas/courseSchema'
 import MDEditor from '@uiw/react-md-editor'
+import Construction from '@/components/construction'
 
 export const Route = createFileRoute('/_protected/admin/updateCourse')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  {
+    /*
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Header */}
       <header className="p-4">
         <div className="text-2xl font-bold text-primary">
           <Link to="/">
@@ -36,7 +38,6 @@ function RouteComponent() {
         </div>
       </header>
 
-      {/* Centered Card */}
       <main className="flex-grow flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <Card className="bg-card border border-border shadow-xl rounded-2xl overflow-hidden">
@@ -59,6 +60,9 @@ function RouteComponent() {
       </main>
     </div>
   )
+  */
+  }
+  return <Construction />
 }
 
 const { fieldContext, formContext, useFormContext, useFieldContext } =
@@ -269,8 +273,8 @@ const defaultCourseValues: CourseValues = {
 
 function Login() {
   const [formError] = useState('')
-  const navigate = useNavigate({ from: '/admin/createCourse' })
-  const { auth } = useRouteContext({ from: '/_protected/admin/createCourse' })
+  const navigate = useNavigate({ from: '/admin/updateCourse' })
+  const { auth } = useRouteContext({ from: '/_protected/admin/updateCourse' })
   const createCourse = useCreateCourse(auth)
 
   const courseForm = useAppForm({
