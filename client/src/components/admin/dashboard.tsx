@@ -3,24 +3,37 @@ import { motion } from 'framer-motion'
 import type { AuthState } from '@/types/authState'
 import type { CourseValuesWithId } from '@/types/courseValues'
 import { useGetCourses } from '@/hooks/useGetCourses'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { useDelete } from '@/hooks/useDelete'
+import { Button } from '@/components/ui/button'
 
 export function Dashboard() {
   const { auth } = useRouteContext({ from: '/_protected/admin/home' })
 
-  const { isPending, isError, data } = useGetCourses(auth)
+  const { isPending, isError, data, refetch } = useGetCourses(auth)
 
   if (isPending) return <Pending />
   if (isError) return <Error />
 
-  return <Success auth={auth} courseList={data.courseList} />
+  return <Success auth={auth} courseList={data.courseList} refetch={refetch} />
 }
 
 interface SuccessProps {
   auth: AuthState
   courseList: Array<CourseValuesWithId>
+  refetch: () => void
 }
 
-function Success({ auth, courseList }: SuccessProps) {
+function Success({ auth, courseList, refetch }: SuccessProps) {
   const name = auth.user?.name || 'there'
 
   return (
@@ -42,7 +55,7 @@ function Success({ auth, courseList }: SuccessProps) {
         ) : (
           <CardGrid>
             {courseList.map((course) => (
-              <CourseCard key={course._id} course={course} />
+              <CourseCard key={course._id} course={course} refetch={refetch} />
             ))}
           </CardGrid>
         )}
@@ -100,7 +113,13 @@ function CardGrid({ children }: { children: React.ReactNode }) {
   )
 }
 
-function CourseCard({ course }: { course: CourseValuesWithId }) {
+function CourseCard({
+  course,
+  refetch,
+}: {
+  course: CourseValuesWithId
+  refetch: () => void
+}) {
   return (
     <motion.div
       className="bg-background dark:bg-dark-background p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow flex flex-col justify-between"
@@ -112,21 +131,74 @@ function CourseCard({ course }: { course: CourseValuesWithId }) {
       <p className="text-sm text-muted-text dark:text-dark-muted-text line-clamp-3">
         {course.description}
       </p>
-      <div className="flex justify-between">
-        <Link
-          to={`/admin/updateCourse`}
-          className="mt-4 inline-block text-primary dark:text-dark-primary hover:underline font-medium"
-        >
-          Update
+      <div className="flex justify-between mt-4">
+        <Link to={`/admin/updateCourse`}>
+          <Button
+            variant="ghost"
+            className="text-primary dark:text-dark-primary"
+          >
+            Update
+          </Button>
         </Link>
-        <Link
-          to={`/admin/deleteCourse`}
-          className="mt-4 inline-block text-primary dark:text-dark-primary hover:underline font-medium"
-        >
-          Delete
-        </Link>
+        <Delete course_id={course._id} refetch={refetch} />
       </div>
     </motion.div>
+  )
+}
+
+function Delete({
+  course_id,
+  refetch,
+}: {
+  course_id: string
+  refetch: () => void
+}) {
+  const { auth } = useRouteContext({ from: '/_protected/admin/home' })
+  const deleteMutation = useDelete(auth)
+
+  const deleteHandler = () => {
+    deleteMutation.mutate(course_id, {
+      onSuccess: () => {
+        refetch()
+      },
+    })
+  }
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="ghost" className="text-primary dark:text-dark-primary">
+          Delete
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
+            <div className="text-text dark:text-dark-text">
+              Are you absolutely sure?
+            </div>
+          </DialogTitle>
+          <DialogDescription>
+            <div className="text-muted-text dark:text-dark-muted-text">
+              This action cannot be undone. This will permanently delete your
+              course and remove your data from our servers.
+            </div>
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button
+              variant="ghost"
+              onClick={deleteHandler}
+              className="bg-red-600 text-dark-text w-20"
+              disabled={deleteMutation.isPending}
+            >
+              {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 
