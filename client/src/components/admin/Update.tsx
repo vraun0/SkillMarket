@@ -1,62 +1,41 @@
-import {
-  Link,
-  createFileRoute,
-  useNavigate,
-  useRouteContext,
-} from '@tanstack/react-router'
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
 import { useState } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 import type { CourseValues } from '@/types/courseValues'
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { useCreateCourse } from '@/hooks/useCreateCourse'
 import { courseSchema } from '@/schemas/courseSchema'
 
-export const Route = createFileRoute('/_protected/admin/createCourse')({
-  component: RouteComponent,
-})
-function RouteComponent() {
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { useUpdateCourse } from '@/hooks/useUpdateCourse'
+import { Button } from '@/components/ui/button'
+import { useRouteContext } from '@tanstack/react-router'
+
+export function Update({ course_id }: { course_id: string }) {
+  const [open, setOpen] = useState(false)
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-white to-background dark:from-gray-900 dark:to-dark-background">
-      {/* Header */}
-      <header className="p-4">
-        <div className="text-2xl font-bold text-primary dark:text-dark-primary">
-          <Link to="/">
-            <span className="text-primary">Skill</span>
-            <span className="text-green-600">Market</span>
-          </Link>
-        </div>
-      </header>
-
-      {/* Centered Card */}
-      <main className="flex-grow flex items-center justify-center px-4">
-        <div className="w-full max-w-md">
-          <Card className="bg-card border border-border dark:border-dark-text shadow-xl rounded-2xl overflow-hidden">
-            <CardHeader className="space-y-2 text-center">
-              <CardTitle className="text-2xl font-semibold dark:text-dark-text">
-                Create your course
-              </CardTitle>
-              <CardDescription className="text-muted-foreground text-sm dark:text-dark-text">
-                Enter the course details to continue
-              </CardDescription>
-            </CardHeader>
-
-            <CardContent>
-              <div className="p-1">
-                <Login />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
-    </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="ghost" className="text-primary dark:text-dark-primary">
+          Update
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>
+            <div className="text-text dark:text-dark-text">
+              Update your course
+            </div>
+          </DialogTitle>
+        </DialogHeader>
+        <UpdateForm course_id={course_id} closeDialog={() => setOpen(false)} />
+      </DialogContent>
+    </Dialog>
   )
 }
 
@@ -266,10 +245,15 @@ const defaultCourseValues: CourseValues = {
   thumbnail: '',
 }
 
-function Login() {
+interface FormProps {
+  course_id: string
+  closeDialog: () => void
+}
+
+function UpdateForm({ course_id, closeDialog }: FormProps) {
   const [formError] = useState('')
-  const { auth } = useRouteContext({ from: '/_protected/admin/createCourse' })
-  const createCourse = useCreateCourse(auth)
+  const { auth } = useRouteContext({ from: '/_protected/admin/home' })
+  const updateCourse = useUpdateCourse(auth, course_id)
 
   const courseForm = useAppForm({
     defaultValues: defaultCourseValues,
@@ -277,9 +261,10 @@ function Login() {
       onChange: courseSchema,
     },
     onSubmit: ({ value }) => {
-      createCourse.mutate(value, {
+      updateCourse.mutate(value, {
         onSuccess: async (data) => {
           console.log(data)
+          closeDialog()
         },
         onError: (error) => {
           console.log('Error creating course:', error)
