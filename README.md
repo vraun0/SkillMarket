@@ -121,6 +121,7 @@ Once both servers are running, the frontend communicates with the backend seamle
 - Implement user profile and settings.
 - Add search and filters on skills.
 - Include user profiles and skill endorsements.
+- Implement mobile compatible ui styling.
 
 ---
 
