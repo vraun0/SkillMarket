@@ -36,17 +36,18 @@
 - Data Fetching & State Management using **TanStack Query** and **zustand**.
 - Interactive **TanStack Forms** with client-side validation and error handling.
 - Elegant UI built with **tailwindcss** and **shadcn/ui** components—stylish and consistent.
+- Seamless UI animations with **Framer Motion**.
 - Data Validation on both backend and frontend with **Zod**.
 
 ---
 
 ## Tech Stack
 
-| Layer      | Tools & Libraries                                                               |
-| ---------- | ------------------------------------------------------------------------------- |
-| Backend    | Express.js, MongoDB, JWT, bcrypt, Zod                                           |
-| Frontend   | React, TanStack Router, TanStack Query, TanStack Forms, shadcn/ui, Zod, zustand |
-| Deployment | Vercel (frontend), Render(server)                                               |
+| Layer      | Tools & Libraries                                                                       |
+| ---------- | ----------------------------------------------------------------------------------------|
+| Backend    | Express.js, MongoDB, JWT, bcrypt, Zod                                                   |
+| Frontend   | React, TanStack Router, TanStack Query, TanStack Forms, shadcn/ui, Zod, zustand, Motion |
+| Deployment | Vercel (frontend), Render(server)                                                       |
 
 ---
 
@@ -102,6 +103,7 @@ Once both servers are running, the frontend communicates with the backend seamle
 - **TanStack Query** handles async data fetching and caching.
 - **TanStack Forms** simplifies form state and validation.
 - **shadcn/ui** provides polished, accessible UI components.
+- **Motion** creates intriguing UI animations that capture the user.
 - **zustand** maintains global app state (e.g. user session).
 - **Zod** validates inputs before submitting them to the backend.
 
