@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://skill-market-pi.vercel.app/)
 
-[**Live Site →**](https://skill-market-pi.vercel.app/)
+[**Live Demo Site →**](https://skill-market-pi.vercel.app/)
 
 **SkillMarket** is a skill exchange platform designed to connect individuals who want to learn, teach, or trade expertise in various fields. The platform enables users to create detailed profiles, showcase their skills, list services, and browse offerings from others in the community. With secure authentication and intuitive search and filtering, SkillMarket ensures a seamless experience for finding the right skill partner—whether for professional growth, hobby exploration, or collaborative projects.
 
@@ -134,4 +134,4 @@ SkillMarket was an incredible learning journey. I gained hands-on experience wit
 - State & form management with TanStack tools and zustand
 - Building a clean, functional UI with shadcn/ui
 
-**Try it live:** [https://skill-market-pi.vercel.app/](https://skill-market-pi.vercel.app/)
+**Try the Demo live:** [https://skill-market-pi.vercel.app/](https://skill-market-pi.vercel.app/)
