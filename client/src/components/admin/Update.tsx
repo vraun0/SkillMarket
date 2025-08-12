@@ -15,7 +15,13 @@ import { useUpdateCourse } from '@/hooks/useUpdateCourse'
 import { Button } from '@/components/ui/button'
 import { useRouteContext } from '@tanstack/react-router'
 
-export function Update({ course_id }: { course_id: string }) {
+export function Update({
+  course_id,
+  refetch,
+}: {
+  course_id: string
+  refetch: () => void
+}) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -33,7 +39,11 @@ export function Update({ course_id }: { course_id: string }) {
             </div>
           </DialogTitle>
         </DialogHeader>
-        <UpdateForm course_id={course_id} closeDialog={() => setOpen(false)} />
+        <UpdateForm
+          course_id={course_id}
+          closeDialog={() => setOpen(false)}
+          refetch={refetch}
+        />
       </DialogContent>
     </Dialog>
   )
@@ -248,9 +258,10 @@ const defaultCourseValues: CourseValues = {
 interface FormProps {
   course_id: string
   closeDialog: () => void
+  refetch: () => void
 }
 
-function UpdateForm({ course_id, closeDialog }: FormProps) {
+function UpdateForm({ course_id, closeDialog, refetch }: FormProps) {
   const [formError] = useState('')
   const { auth } = useRouteContext({ from: '/_protected/admin/home' })
   const updateCourse = useUpdateCourse(auth, course_id)
@@ -262,12 +273,12 @@ function UpdateForm({ course_id, closeDialog }: FormProps) {
     },
     onSubmit: ({ value }) => {
       updateCourse.mutate(value, {
-        onSuccess: async (data) => {
-          console.log(data)
+        onSuccess: async () => {
+          refetch()
           closeDialog()
         },
         onError: (error) => {
-          console.log('Error creating course:', error)
+          console.log('Error updating course:', error)
         },
       })
     },
