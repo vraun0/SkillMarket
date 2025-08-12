@@ -105,7 +105,6 @@ function CardGrid({ children }: { children: React.ReactNode }) {
 
 function CourseCard({
   course,
-  refetch,
 }: {
   course: CourseValuesWithId
   refetch: () => void
