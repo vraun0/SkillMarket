@@ -3,6 +3,7 @@ import {
   createFileRoute,
   useNavigate,
   useRouteContext,
+  redirect,
 } from '@tanstack/react-router'
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
 import { z } from 'zod'
@@ -25,6 +26,21 @@ const redirectSearchSchema = z.object({
 })
 
 export const Route = createFileRoute('/login')({
+  beforeLoad: ({ context }) => {
+    if (context.auth.isAuthenticated) {
+      const admin = localStorage.getItem('admin')
+      if (admin == 'true') {
+        throw redirect({
+          to: '/admin/home',
+        })
+      }
+      if (admin == 'false') {
+        throw redirect({
+          to: '/user/home',
+        })
+      }
+    }
+  },
   validateSearch: redirectSearchSchema,
   component: RouteComponent,
 })

@@ -10,12 +10,12 @@ export const Route = createFileRoute('/')({
     console.log('context.auth in index route', context.auth)
     if (context.auth.isAuthenticated) {
       const admin = localStorage.getItem('admin')
-      if (admin == "true") {
+      if (admin) {
         throw redirect({
           to: '/admin/home',
         })
       }
-      if (admin == "false") {
+      if (!admin) {
         throw redirect({
           to: '/user/home',
         })
