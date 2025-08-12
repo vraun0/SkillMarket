@@ -261,15 +261,16 @@ function UpdateForm({ course_id, closeDialog }: FormProps) {
       onChange: courseSchema,
     },
     onSubmit: ({ value }) => {
-      updateCourse.mutate(value, {
-        onSuccess: async (data) => {
-          console.log(data)
-          closeDialog()
-        },
-        onError: (error) => {
-          console.log('Error creating course:', error)
-        },
-      })
+      alert("You are not allowed to update in demo mode")
+      // updateCourse.mutate(value, {
+      //   onSuccess: async (data) => {
+      //     console.log(data)
+      //     closeDialog()
+      //   },
+      //   onError: (error) => {
+      //     console.log('Error creating course:', error)
+      //   },
+      // })
     },
   })
 

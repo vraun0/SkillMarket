@@ -1,8 +1,8 @@
 import {
   Link,
   createFileRoute,
-  useNavigate,
-  useRouteContext,
+  // useNavigate,
+  // useRouteContext,
 } from '@tanstack/react-router'
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
 import { useState } from 'react'
@@ -16,7 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { useCreateCourse } from '@/hooks/useCreateCourse'
+// import { useCreateCourse } from '@/hooks/useCreateCourse'
 import { courseSchema } from '@/schemas/courseSchema'
 
 export const Route = createFileRoute('/_protected/admin/createCourse')({
@@ -50,7 +50,7 @@ function RouteComponent() {
 
             <CardContent>
               <div className="p-1">
-                <Login />
+                <Create />
               </div>
             </CardContent>
           </Card>
@@ -266,25 +266,27 @@ const defaultCourseValues: CourseValues = {
   thumbnail: '',
 }
 
-function Login() {
+function Create() {
   const [formError] = useState('')
-  const { auth } = useRouteContext({ from: '/_protected/admin/createCourse' })
-  const createCourse = useCreateCourse(auth)
+  // const { auth } = useRouteContext({ from: '/_protected/admin/createCourse' })
+  // const createCourse = useCreateCourse(auth)
 
   const courseForm = useAppForm({
     defaultValues: defaultCourseValues,
     validators: {
       onChange: courseSchema,
     },
-    onSubmit: ({ value }) => {
-      createCourse.mutate(value, {
-        onSuccess: async (data) => {
-          console.log(data)
-        },
-        onError: (error) => {
-          console.log('Error creating course:', error)
-        },
-      })
+    onSubmit: () => {
+      alert("You are not allowed to create in demo mode")
+
+      // createCourse.mutate(value, {
+      //   onSuccess: async (data) => {
+      //     console.log(data)
+      //   },
+      //   onError: (error) => {
+      //     console.log('Error creating course:', error)
+      //   },
+      // })
     },
   })
 
