@@ -11,11 +11,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { useUpdateCourse } from '@/hooks/useUpdateCourse'
+// import { useUpdateCourse } from '@/hooks/useUpdateCourse'
 import { Button } from '@/components/ui/button'
-import { useRouteContext } from '@tanstack/react-router'
+// import { useRouteContext } from '@tanstack/react-router'
 
-export function Update({ course_id }: { course_id: string }) {
+export function Update() {
   const [open, setOpen] = useState(false)
 
   return (
@@ -33,7 +33,7 @@ export function Update({ course_id }: { course_id: string }) {
             </div>
           </DialogTitle>
         </DialogHeader>
-        <UpdateForm course_id={course_id} closeDialog={() => setOpen(false)} />
+        <UpdateForm  />
       </DialogContent>
     </Dialog>
   )
@@ -245,22 +245,22 @@ const defaultCourseValues: CourseValues = {
   thumbnail: '',
 }
 
-interface FormProps {
-  course_id: string
-  closeDialog: () => void
-}
+// interface FormProps {
+//   course_id: string
+//   closeDialog: () => void
+// }
 
-function UpdateForm({ course_id, closeDialog }: FormProps) {
+function UpdateForm() {
   const [formError] = useState('')
-  const { auth } = useRouteContext({ from: '/_protected/admin/home' })
-  const updateCourse = useUpdateCourse(auth, course_id)
+  // const { auth } = useRouteContext({ from: '/_protected/admin/home' })
+  // const updateCourse = useUpdateCourse(auth, course_id)
 
   const courseForm = useAppForm({
     defaultValues: defaultCourseValues,
     validators: {
       onChange: courseSchema,
     },
-    onSubmit: ({ value }) => {
+    onSubmit: () => {
       alert("You are not allowed to update in demo mode")
       // updateCourse.mutate(value, {
       //   onSuccess: async (data) => {

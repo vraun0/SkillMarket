@@ -122,7 +122,7 @@ function CourseCard({
         {course.description}
       </p>
       <div className="flex justify-between mt-4">
-        <Update course_id={course._id} refetch={refetch} />
+        <Update />
         <Delete course_id={course._id} refetch={refetch} />
       </div>
     </motion.div>
