@@ -12,22 +12,17 @@ import { useDelete } from '@/hooks/useDelete'
 import { Button } from '@/components/ui/button'
 import { useRouteContext } from '@tanstack/react-router'
 
-export function Delete({
-  course_id,
-  refetch,
-}: {
-  course_id: string
-  refetch: () => void
-}) {
+export function Delete() {
   const { auth } = useRouteContext({ from: '/_protected/admin/home' })
   const deleteMutation = useDelete(auth)
 
   const deleteHandler = () => {
-    deleteMutation.mutate(course_id, {
-      onSuccess: () => {
-        refetch()
-      },
-    })
+    // deleteMutation.mutate(course_id, {
+    //   onSuccess: () => {
+    //     refetch()
+    //   },
+    // })
+    alert("You are not allowed to delete in demo mode")
   }
 
   return (
